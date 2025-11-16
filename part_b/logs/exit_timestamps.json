@@ -21,7 +21,7 @@
                 "Valid"
             ],
             "first_seen": "2023-07-08 00:00:00",
-            "last_seen": "2025-11-16 06:00:00",
+            "last_seen": "2025-11-16 07:00:00",
             "running": true,
             "is_guard": true,
             "is_exit": true,
@@ -29,7 +29,7 @@
             "is_stable": true
         },
         "destination": "172.217.14.206",
-        "timestamp": "2025-11-16T13:00:51.081246",
+        "timestamp": "2025-11-16T14:13:03.631246",
         "connection": {
             "src_port": 9001,
             "dst_port": 443
