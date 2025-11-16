@@ -1,0 +1,38 @@
+[
+    {
+        "is_exit": true,
+        "exit_node": {
+            "fingerprint": "000F3EB75342BE371F1D8D3FAE90890AEB5664EE",
+            "nickname": "SENDNOOSEplz",
+            "ip_address": "204.137.14.106",
+            "or_port": "443",
+            "country": "us",
+            "country_name": "United States of America",
+            "as_number": null,
+            "as_name": "Atomic Networks LLC",
+            "bandwidth": 13594624,
+            "flags": [
+                "Exit",
+                "Fast",
+                "Guard",
+                "Running",
+                "Stable",
+                "V2Dir",
+                "Valid"
+            ],
+            "first_seen": "2023-07-08 00:00:00",
+            "last_seen": "2025-11-16 06:00:00",
+            "running": true,
+            "is_guard": true,
+            "is_exit": true,
+            "is_fast": true,
+            "is_stable": true
+        },
+        "destination": "172.217.14.206",
+        "timestamp": "2025-11-16T13:00:51.081246",
+        "connection": {
+            "src_port": 9001,
+            "dst_port": 443
+        }
+    }
+]

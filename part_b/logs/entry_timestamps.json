@@ -1,0 +1,38 @@
+[
+    {
+        "is_entry": true,
+        "entry_node": {
+            "fingerprint": "000D11C0BF30C48FD81644ED2AA3D3733A5149D1",
+            "nickname": "hubbabubbaABC",
+            "ip_address": "83.108.59.221",
+            "or_port": "9001",
+            "country": "no",
+            "country_name": "Norway",
+            "as_number": null,
+            "as_name": "Telenor Norge AS",
+            "bandwidth": 17926482,
+            "flags": [
+                "Fast",
+                "Guard",
+                "HSDir",
+                "Running",
+                "Stable",
+                "V2Dir",
+                "Valid"
+            ],
+            "first_seen": "2025-02-16 17:00:00",
+            "last_seen": "2025-11-16 06:00:00",
+            "running": true,
+            "is_guard": true,
+            "is_exit": false,
+            "is_fast": true,
+            "is_stable": true
+        },
+        "user_ip": "192.168.1.100",
+        "timestamp": "2025-11-16T13:00:51.029455",
+        "connection": {
+            "src_port": 50000,
+            "dst_port": 9001
+        }
+    }
+]

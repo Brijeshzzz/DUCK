@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TOR Analysis — Demo Frontend</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Leaflet for map (optional, CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* ----- Basic layout & styling ----- */
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#3b82f6; --success:#10b981; --danger:#ef4444;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071024 0%, #071528 100%);color:#dbeafe}
+    .container{max-width:1200px;margin:18px auto;padding:18px;}
+    .header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .brand{font-weight:700;font-size:20px;color:var(--accent)}
+    .kpis{display:flex;gap:10px;margin-left:auto}
+    .kpi{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:8px 12px;border-radius:8px;font-size:13px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:320px 1fr;gap:14px}
+    /* Case list */
+    .cases{background:var(--card);padding:12px;border-radius:10px;height:720px; overflow:auto}
+    .case-card{background:rgba(255,255,255,0.02);padding:10px;margin-bottom:8px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .case-card:hover{outline:1px solid rgba(255,255,255,0.03)}
+    .case-meta{font-size:13px;color:var(--muted)}
+    .open-btn{background:var(--accent);padding:6px 8px;border-radius:6px;color:white;font-weight:600;border:none;cursor:pointer}
+    /* Dashboard */
+    .dash{display:grid;grid-template-rows:auto 1fr;gap:10px}
+    .summary{background:var(--card);padding:12px;border-radius:10px;display:flex;align-items:center;gap:12px}
+    .case-title{font-size:18px;font-weight:700}
+    .score{margin-left:auto;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#05224a,#083358);font-weight:700}
+    .actions{display:flex;gap:8px;margin-left:12px}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;color:#dbeafe;cursor:pointer}
+    /* main body columns */
+    .body-grid{display:grid;grid-template-columns:320px 1fr 360px;gap:12px}
+    .panel{background:var(--card);padding:12px;border-radius:10px;height:520px;overflow:auto}
+    /* map */
+    #map{height:260px;border-radius:8px;overflow:hidden}
+    .timeline{height:120px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:6px;padding:8px}
+    .sankey{height:160px}
+    /* confidence */
+    .factor{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    .progress{height:8px;background:#07172b;border-radius:6px;overflow:hidden;width:60%}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#06b6d4)}
+    /* table */
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.02)}
+    .muted{color:var(--muted);font-size:12px}
+    .small{font-size:12px}
+    /* footer controls */
+    .replay-row{display:flex;gap:8px;align-items:center}
+    .input,select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 8px;border-radius:6px;color:#dbeafe}
+    /* responsive */
+    @media (max-width:1000px){.body-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">TOR Analysis System — Demo</div>
+      <div class="muted">Prototype frontend — connect to your backend via API_BASE in script</div>
+      <div class="kpis">
+        <div class="kpi" id="k_total">Cases: —</div>
+        <div class="kpi" id="k_nodes">Nodes: —</div>
+        <div class="kpi" id="k_pcaps">PCAP MB: —</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Case List -->
+      <div class="cases">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-weight:700">Cases</div>
+          <input id="search" class="input small" placeholder="search case or IP" />
+        </div>
+        <div id="caseList"></div>
+      </div>
+
+      <!-- RIGHT: Dashboard area -->
+      <div class="dash">
+        <div class="summary">
+          <div>
+            <div class="case-title" id="caseTitle">Select a case to view dashboard</div>
+            <div class="case-meta muted" id="caseRange">—</div>
+          </div>
+          <div class="score" id="caseScore">—</div>
+          <div class="actions">
+            <button class="btn" id="exportBtn" disabled>Export bundle</button>
+            <button class="btn" id="openPcap" disabled>Open PCAP</button>
+          </div>
+        </div>
+
+        <div class="body-grid">
+          <!-- Left column: metadata & filters -->
+          <div class="panel">
+            <h3 style="margin-top:0">Metadata & Filters</h3>
+            <div id="metaArea"><div class="muted">No case selected</div></div>
+            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:8px 0" />
+            <h4>Chain of custody</h4>
+            <div id="coc" class="muted">—</div>
+            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:8px 0" />
+            <h4>Replay / Re-run</h4>
+            <div class="replay-row">
+              <input id="re_time" class="input" placeholder="time window sec" value="2" />
+              <input id="re_thresh" class="input" placeholder="threshold 0-100" value="60" />
+              <button class="btn" id="replayBtn" disabled>Replay</button>
+            </div>
+            <div style="margin-top:8px" class="muted small">Replay runs the correlation with changed params to show determinism.</div>
+          </div>
+
+          <!-- Center column: visual evidence -->
+          <div>
+            <div style="display:flex;gap:10px;margin-bottom:10px">
+              <div style="flex:1" class="panel">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <h4 style="margin:0">Topology Map</h4>
+                  <div class="muted small" id="mapSummary">—</div>
+                </div>
+                <div id="map"></div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px">
+              <div style="flex:1" class="panel">
+                <h4 style="margin-top:0">Timeline / Swimlane</h4>
+                <div id="timeline" class="timeline">No timeline yet</div>
+              </div>
+              <div style="flex:1" class="panel">
+                <h4 style="margin-top:0">Path reconstruction</h4>
+                <div id="sankey" class="sankey">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column: analytics -->
+          <div class="panel">
+            <h4 style="margin-top:0">Confidence Breakdown</h4>
+            <div id="confidenceList"><div class="muted">No case selected</div></div>
+            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:8px 0" />
+            <h4>Anomalies & Evidence</h4>
+            <div id="anomalies" class="muted">—</div>
+          </div>
+        </div>
+
+        <!-- Packet explorer -->
+        <div style="margin-top:10px" class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><h4 style="margin:0">Packet Explorer</h4><div class="muted small">Parsed packets (click row to expand)</div></div>
+            <div>
+              <button class="btn" id="downloadCsv" disabled>Download CSV</button>
+            </div>
+          </div>
+          <div style="margin-top:8px;overflow:auto;height:220px">
+            <table id="packetTable">
+              <thead><tr><th>Time</th><th>Src</th><th>Dst</th><th>Proto</th><th>Len</th><th>Flag</th></tr></thead>
+              <tbody><tr><td class="muted">No data</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet + small icons (optional) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+  /**********************************************************************
+   * Config
+   * Set API_BASE to your backend URL (no trailing slash), e.g.:
+   * const API_BASE = 'https://my-backend.example/api'
+   * If left as null, UI uses built-in mock data for demo.
+   **********************************************************************/
+  const API_BASE = null; // <-- set to your backend base URL if available
+
+  /**********************************************************************
+   * MOCK DATA (used if API_BASE == null) - replace with your real results
+   **********************************************************************/
+  const MOCK = {
+    kpis: {cases:3, nodes:10234, pcapsMB: 642},
+    cases: [
+      {id:'CASE-001', title:'Suspected TOR flow 2025-11-02', range:'2025-11-02 10:00 → 10:30', score:78, pcapsMB:14, investigator:'Team A', uploaded:'2025-11-02T11:00Z', coc:[{actor:'ingest',ts:'2025-11-02T11:00Z',sha:'abc123'}]},
+      {id:'CASE-002', title:'C2 exfiltration (sample)', range:'2025-10-28 03:10 → 03:40', score:56, pcapsMB:22, investigator:'Team B', uploaded:'2025-10-28T04:00Z', coc:[{actor:'ingest',ts:'2025-10-28T04:00Z',sha:'def456'}]},
+      {id:'CASE-003', title:'Correlation test', range:'2025-09-15 01:00 → 01:05', score:34, pcapsMB:3, investigator:'Team C', uploaded:'2025-09-15T01:10Z', coc:[{actor:'ingest',ts:'2025-09-15T01:10Z',sha:'ghi789'}]},
+    ],
+    nodes: [
+      {id:'Node-A', lat:37.77, lon:-122.42, country:'US', flag:'guard', first_seen:'2025-01-12'},
+      {id:'Node-B', lat:51.51, lon:-0.12, country:'UK', flag:'middle', first_seen:'2024-11-04'},
+      {id:'Node-C', lat:19.07, lon:72.88, country:'IN', flag:'exit', first_seen:'2025-06-30'}
+    ],
+    caseDetails: {
+      id:'CASE-001',
+      title:'Suspected TOR flow 2025-11-02',
+      range:'2025-11-02 10:00 → 10:30',
+      score:78,
+      pcapsMB:14,
+      investigator:'Team A',
+      coc:[{actor:'ingest',ts:'2025-11-02T11:00Z',sha:'abc123'}],
+      nodes:[
+        {id:'Node-A',lat:37.77,lon:-122.42,flag:'guard',confidence:88},
+        {id:'Node-B',lat:51.51,lon:-0.12,flag:'middle',confidence:70},
+        {id:'Node-C',lat:19.07,lon:72.88,flag:'exit',confidence:78},
+      ],
+      timeline:[
+        {t:'10:01:00',event:'Flow start',volume:120},
+        {t:'10:05:12',event:'Candidate entry match',volume:34},
+        {t:'10:14:23',event:'Candidate exit match',volume:44},
+      ],
+      confidenceFactors:[
+        {name:'Timing correlation',score:32,details:'/cases/CASE-001/factor/timing'},
+        {name:'Volume correlation',score:26,details:'/cases/CASE-001/factor/volume'},
+        {name:'Cell pattern',score:12,details:'/cases/CASE-001/factor/cell'},
+        {name:'Behavioral',score:8,details:'/cases/CASE-001/factor/behavior'}
+      ],
+      anomalies:[
+        {id:'A1',desc:'Exit node Node-C matched at 10:14:23',score:78,trace:'/cases/CASE-001/anom/A1'}
+      ],
+      packets:[
+        {time:'10:01:02.123',src:'10.0.0.5',dst:'52.14.23.3',proto:'TCP',len:548,flag:'candidate'},
+        {time:'10:05:12.444',src:'10.0.0.5',dst:'52.14.23.3',proto:'TCP',len:60,flag:'matched-entry'},
+        {time:'10:14:23.111',src:'10.0.0.5',dst:'52.14.23.3',proto:'TCP',len:352,flag:'matched-exit'}
+      ]
+    }
+  };
+
+  /**********************************************************************
+   * Utilities: simple fetch wrapper that falls back to mock data
+   **********************************************************************/
+  async function apiFetch(path, opts){
+    if(!API_BASE){
+      // Simulate small delay
+      await new Promise(r=>setTimeout(r,200));
+      // Map basic paths to mock
+      if(path === '/kpis') return {ok:true,json:()=>MOCK.kpis};
+      if(path === '/cases') return {ok:true,json:()=>MOCK.cases};
+      if(path.startsWith('/cases/') && path.endsWith('/packets')) return {ok:true,json:()=>MOCK.caseDetails.packets};
+      if(path.startsWith('/cases/') && path.endsWith('/export')) return {ok:true,json:()=>({message:'export simulated'})};
+      if(path.startsWith('/cases/') && path.endsWith('/replay')) {
+        // return simulated modified score
+        const body = opts && opts.body ? JSON.parse(opts.body) : {};
+        const newScore = Math.min(99, MOCK.caseDetails.score + (body.confidenceThreshold ? (body.confidenceThreshold-60)/4 : 0));
+        const result = {...MOCK.caseDetails, score: Math.round(newScore)};
+        return {ok:true,json:()=>result};
+      }
+      if(path === '/node_db') return {ok:true,json:()=>MOCK.nodes};
+      if(path.startsWith('/cases/')) return {ok:true,json:()=>MOCK.caseDetails};
+      return {ok:false, status:404};
+    } else {
+      // real backend fetch
+      const url = API_BASE + path;
+      const res = await fetch(url, opts);
+      return res;
+    }
+  }
+
+  /**********************************************************************
+   * App state + initializations
+   **********************************************************************/
+  let STATE = {cases:[], selectedCase:null};
+  document.addEventListener('DOMContentLoaded', init);
+
+  async function init(){
+    // fill KPIs
+    const k = await (await apiFetch('/kpis')).json().catch(()=>null);
+    if(k){ document.getElementById('k_total').textContent = 'Cases: ' + k.cases; document.getElementById('k_nodes').textContent = 'Nodes: ' + k.nodes; document.getElementById('k_pcaps').textContent = 'PCAP MB: ' + k.pcapsMB; }
+    // load cases
+    const res = await apiFetch('/cases');
+    if(res && res.ok){
+      const cases = await res.json();
+      STATE.cases = cases;
+      renderCaseList(cases);
+    } else {
+      STATE.cases = MOCK.cases;
+      renderCaseList(MOCK.cases);
+    }
+    setupSearch();
+    setupMap();
+  }
+
+  function renderCaseList(cases){
+    const el = document.getElementById('caseList'); el.innerHTML = '';
+    cases.forEach(c=>{
+      const card = document.createElement('div'); card.className='case-card';
+      card.innerHTML = `<div>
+          <div style="font-weight:700">${c.title}</div>
+          <div class="muted small">${c.range} • ${c.investigator}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="case-meta">${c.pcapsMB} MB</div>
+          <button class="open-btn" data-id="${c.id}">Open</button>
+        </div>`;
+      el.appendChild(card);
+      card.querySelector('.open-btn').addEventListener('click', ()=>openCase(c.id));
+    });
+  }
+
+  // search handler
+  function setupSearch(){
+    const input = document.getElementById('search');
+    input.addEventListener('input', ()=> {
+      const q = input.value.toLowerCase();
+      const filtered = STATE.cases.filter(c => c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q));
+      renderCaseList(filtered);
+    });
+  }
+
+  /**********************************************************************
+   * Case open: fetch details and render dashboard
+   **********************************************************************/
+  async function openCase(caseId){
+    const res = await apiFetch('/cases/' + caseId);
+    if(!res || !res.ok){ alert('Failed to load case'); return; }
+    const detail = await res.json();
+    STATE.selectedCase = detail;
+    // populate summary
+    document.getElementById('caseTitle').textContent = detail.title;
+    document.getElementById('caseRange').textContent = detail.range || '';
+    document.getElementById('caseScore').textContent = 'Score: ' + (detail.score ?? '—');
+    document.getElementById('exportBtn').disabled = false;
+    document.getElementById('openPcap').disabled = false;
+    document.getElementById('downloadCsv').disabled = false;
+    document.getElementById('replayBtn').disabled = false;
+    // metadata
+    const metaArea = document.getElementById('metaArea');
+    metaArea.innerHTML = `<div class="muted">Investigator: ${detail.investigator || '—'}</div>
+      <div class="muted">PCAPs: ${detail.pcapsMB ?? '—'} MB</div>
+      <div class="muted">Uploaded: ${detail.uploaded ?? '—'}</div>`;
+    // chain-of-custody
+    const coc = document.getElementById('coc');
+    coc.innerHTML = detail.coc && detail.coc.length ? detail.coc.map(x=>`<div>${x.actor} • ${x.ts} • <span class="muted">${x.sha}</span></div>`).join('') : '<div class="muted">No COC</div>';
+    // map nodes
+    renderMap(detail.nodes || []);
+    // timeline
+    renderTimeline(detail.timeline || []);
+    // confidence
+    renderConfidence(detail.confidenceFactors || []);
+    // anomalies
+    renderAnomalies(detail.anomalies || []);
+    // packets
+    renderPackets(detail.packets || []);
+    // export button
+    document.getElementById('exportBtn').onclick = ()=>exportBundle(caseId);
+    document.getElementById('openPcap').onclick = ()=>openPcap(caseId);
+    document.getElementById('downloadCsv').onclick = ()=>downloadCsv(caseId);
+    document.getElementById('replayBtn').onclick = ()=>replayCase(caseId);
+  }
+
+  /**********************************************************************
+   * Export / Open PCAP / Replay (calls backend or simulates)
+   **********************************************************************/
+  async function exportBundle(caseId){
+    const res = await apiFetch('/cases/' + caseId + '/export');
+    if(!res || !res.ok){ alert('Export failed (simulated)'); return; }
+    const data = await res.json();
+    alert('Export created: ' + (data.message || 'OK') + '\n(Backend should return a downloadable file)');
+  }
+  function openPcap(caseId){ alert('Open PCAP — implement viewer to fetch original PCAP and open a hex/parsed view.'); }
+
+  async function replayCase(caseId){
+    const t = Number(document.getElementById('re_time').value) || 2;
+    const th = Number(document.getElementById('re_thresh').value) || 60;
+    const res = await apiFetch('/cases/' + caseId + '/replay', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({timeWindow:t, confidenceThreshold:th})});
+    if(!res || !res.ok){ alert('Replay failed'); return; }
+    const newDetail = await res.json();
+    // show updated score and updated timeline if present
+    STATE.selectedCase = newDetail;
+    document.getElementById('caseScore').textContent = 'Score: ' + (newDetail.score ?? '—') + ' (replay)';
+    renderConfidence(newDetail.confidenceFactors || []);
+    renderTimeline(newDetail.timeline || []);
+    renderAnomalies(newDetail.anomalies || []);
+    renderPackets(newDetail.packets || []);
+    alert('Replay complete — UI updated with new results.');
+  }
+
+  /**********************************************************************
+   * Packets table & download CSV
+   **********************************************************************/
+  function renderPackets(packets){
+    const tbody = document.querySelector('#packetTable tbody'); tbody.innerHTML = '';
+    if(!packets || packets.length === 0){ tbody.innerHTML = '<tr><td class="muted">No packets</td></tr>'; return; }
+    packets.forEach((p, idx)=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${p.time}</td><td>${p.src}</td><td>${p.dst}</td><td>${p.proto}</td><td>${p.len}</td><td>${p.flag}</td>`;
+      tr.addEventListener('click', ()=> {
+        // expand
+        const w = window.open('', '_blank', 'noopener');
+        w.document.write('<pre style="font-family:monospace;padding:20px;background:#071024;color:#dbeafe">');
+        w.document.write(JSON.stringify(p, null, 2));
+        w.document.write('</pre>');
+      });
+      tbody.appendChild(tr);
+    });
+  }
+  async function downloadCsv(caseId){
+    // If backend supports a direct CSV download, you can redirect to it:
+    if(API_BASE){
+      window.location = API_BASE + '/cases/' + caseId + '/packets?format=csv';
+      return;
+    }
+    // else build CSV from STATE
+    const rows = STATE.selectedCase && STATE.selectedCase.packets ? STATE.selectedCase.packets : [];
+    if(!rows.length){ alert('No packet data'); return; }
+    const hdr = Object.keys(rows[0]);
+    const csv = [hdr.join(',')].concat(rows.map(r=>hdr.map(h=>JSON.stringify(r[h] ?? '')).join(','))).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = (STATE.selectedCase.id || 'case') + '_packets.csv'; a.click(); URL.revokeObjectURL(url);
+  }
+
+  /**********************************************************************
+   * Confidence / anomalies / timeline renderers
+   **********************************************************************/
+  function renderConfidence(factors){
+    const el = document.getElementById('confidenceList'); el.innerHTML = '';
+    if(!factors || factors.length===0){ el.innerHTML = '<div class="muted">No confidence factors</div>'; return; }
+    factors.forEach(f=>{
+      const row = document.createElement('div'); row.className='factor';
+      const left = document.createElement('div'); left.innerHTML = `<div style="font-weight:700">${f.name}</div><div class="muted small">details: ${f.details}</div>`;
+      const right = document.createElement('div'); right.style.display='flex'; right.style.alignItems='center'; right.style.gap='8px';
+      const p = document.createElement('div'); p.className='progress'; const inner = document.createElement('i'); inner.style.width = Math.max(4, f.score) + '%';
+      if(f.score < 40) inner.style.background = 'linear-gradient(90deg,#f97316,#ef4444)';
+      p.appendChild(inner);
+      right.appendChild(p);
+      right.appendChild(document.createElement('div')).textContent = f.score + '%';
+      row.appendChild(left); row.appendChild(right);
+      el.appendChild(row);
+    });
+  }
+
+  function renderAnomalies(anoms){
+    const el = document.getElementById('anomalies'); el.innerHTML = '';
+    if(!anoms || anoms.length===0){ el.innerHTML = '<div class="muted">No anomalies</div>'; return; }
+    anoms.forEach(a=>{
+      const d = document.createElement('div'); d.style.padding='8px'; d.style.marginBottom='6px'; d.style.background='rgba(255,255,255,0.01)'; d.style.borderRadius='6px';
+      d.innerHTML = `<div style="font-weight:700">${a.desc}</div><div class="muted small">score ${a.score} • trace ${a.trace}</div>`;
+      el.appendChild(d);
+    });
+  }
+
+  function renderTimeline(tlist){
+    const el = document.getElementById('timeline');
+    if(!tlist || tlist.length===0){ el.innerHTML = '<div class="muted">No timeline events</div>'; return; }
+    // simple textual timeline
+    el.innerHTML = '';
+    tlist.forEach(ev=>{
+      const row = document.createElement('div'); row.style.display='flex'; row.style.justifyContent='space-between'; row.style.padding='6px 2px';
+      row.innerHTML = `<div style="font-weight:700">${ev.t}</div><div class="muted">${ev.event} • ${ev.volume ?? ''}</div>`;
+      el.appendChild(row);
+    });
+  }
+
+  /**********************************************************************
+   * MAP (Leaflet) - plots nodes & draws lines
+   **********************************************************************/
+  let map, markers = [], polyline;
+  function setupMap(){
+    // initialize leaflet map
+    try {
+      map = L.map('map', {zoomControl:false, attributionControl:false}).setView([20,0],2);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(map);
+      document.getElementById('mapSummary').textContent = 'Interactive map';
+      // If no nodes exist yet, plot mock nodes
+      if(MOCK.nodes) renderMap(MOCK.nodes);
+    } catch(e){
+      // If Leaflet fails, fall back to text
+      document.getElementById('map').innerHTML = '<div class="muted">Map unavailable (Leaflet not loaded)</div>';
+    }
+  }
+
+  function clearMap(){
+    if(markers.length){ markers.forEach(m=>map.removeLayer(m)); markers=[]; }
+    if(polyline){ map.removeLayer(polyline); polyline = null; }
+  }
+
+  function renderMap(nodes){
+    clearMap();
+    if(!map){ document.getElementById('map').innerHTML = '<div class="muted">Map not initialized</div>'; return; }
+    const coords = [];
+    nodes.forEach(n=>{
+      const m = L.circleMarker([n.lat, n.lon], {radius:8, color:n.flag==='exit'?'#ef4444':n.flag==='guard'?'#10b981':'#3b82f6', fillOpacity:0.8}).addTo(map);
+      m.bindPopup(`<b>${n.id}</b><div class="muted">${n.country || ''} • ${n.flag}</div>`);
+      markers.push(m);
+      coords.push([n.lat, n.lon]);
+    });
+    if(coords.length) polyline = L.polyline(coords, {color:'#06b6d4', weight:2, dashArray:'6'}).addTo(map);
+    if(coords.length) map.fitBounds(polyline.getBounds(), {padding:[40,40]});
+  }
+
+  </script>
+</body>
+</html>

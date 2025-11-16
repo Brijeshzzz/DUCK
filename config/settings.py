@@ -1,0 +1,3 @@
+CAPTURE_INTERFACE = 'wlan0'
+CAPTURE_FILTER = 'tcp port 9050 or tcp port 9051'
+CAPTURE_DURATION = 60
