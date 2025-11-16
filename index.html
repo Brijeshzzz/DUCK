@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOR Analysis: Start</title>
+    <style>
+        #output {
+            background:black;
+            color:lime;
+            font-family: monospace;
+            padding: 1em;
+            white-space: pre-line;
+            min-height:200px;
+            border-radius: 6px;
+            margin-top: 20px;
+            box-shadow: 0 0 4px #222;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 0.5em 2em;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width:600px;margin:50px auto;text-align:center;">
+        <button onclick="startAnalysis()">START</button>
+        <div id="output">Press START to run analysis.</div>
+    </div>
+    <script>
+        function startAnalysis() {
+            document.getElementById('output').innerText = "Running analysis, please wait...";
+            fetch("http://localhost:8080/start_analysis", {
+                method: "POST"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === "completed"){
+                    document.getElementById('output').innerText = 
+                        "Analysis completed.\nResult JSON:\n" +
+                        JSON.stringify(data.report, null, 2);
+                } else {
+                    document.getElementById('output').innerText = 
+                        "ERROR:\n" +
+                        (data.stderr || "") + "\n" +
+                        (data.msg || "");
+                }
+            })
+            .catch(err => {
+                document.getElementById('output').innerText = "Connection error:\n" + err;
+            });
+        }
+    </script>
+</body>
+</html>
