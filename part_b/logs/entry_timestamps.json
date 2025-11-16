@@ -21,7 +21,7 @@
                 "Valid"
             ],
             "first_seen": "2025-02-16 17:00:00",
-            "last_seen": "2025-11-16 07:00:00",
+            "last_seen": "2025-11-16 14:00:00",
             "running": true,
             "is_guard": true,
             "is_exit": false,
@@ -29,7 +29,7 @@
             "is_stable": true
         },
         "user_ip": "192.168.1.100",
-        "timestamp": "2025-11-16T14:13:03.599426",
+        "timestamp": "2025-11-16T21:07:13.598071",
         "connection": {
             "src_port": 50000,
             "dst_port": 9001
