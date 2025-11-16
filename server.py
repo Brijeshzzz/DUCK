@@ -9,13 +9,35 @@ CORS(app)
 
 @app.route("/start_analysis", methods=["POST"])
 def start_analysis():
+    # Run your main.py (the pipeline: TOR DB, capture, parts B/C, etc.)
     res = subprocess.run(["python3", "main.py"], capture_output=True, text=True)
+    git_push_result = ""
+    # Check if the output file exists
     if os.path.exists("part_d/reports/output/report.json"):
+        # Auto add/commit/push the report to GitHub
+        try:
+            subprocess.run(["git", "add", "part_d/reports/output/report.json"])
+            subprocess.run(["git", "commit", "-m", "Auto: update analysis output"], capture_output=True, text=True)
+            push = subprocess.run(["git", "push"], capture_output=True, text=True)
+            git_push_result = push.stdout + "\n" + push.stderr
+        except Exception as e:
+            git_push_result = str(e)
         with open("part_d/reports/output/report.json") as f:
             report = json.load(f)
-        return jsonify({"status": "completed", "report": report})
+        return jsonify({
+            "status": "completed",
+            "report": report,
+            "git_push": git_push_result,
+            "stdout": res.stdout,
+            "stderr": res.stderr
+        })
     else:
-        return jsonify({"status": "error", "stdout": res.stdout, "stderr": res.stderr, "msg": "report.json not found"}), 500
+        return jsonify({
+            "status": "error",
+            "stdout": res.stdout,
+            "stderr": res.stderr,
+            "msg": "report.json not found"
+        }), 500
 
 @app.route("/cases", methods=["GET"])
 def cases():
