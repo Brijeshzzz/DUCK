@@ -14,7 +14,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 class ReportGenerator:
     """Generates forensic investigation reports"""
     
@@ -147,8 +146,13 @@ class ReportGenerator:
         
         with open(output_file, 'w') as f:
             json.dump(analysis_data, f, indent=2, default=str)
+
+        # Overwrite or create latest report.json every time
+        with open(f"{self.output_dir}/report.json", 'w') as f:
+            json.dump(analysis_data, f, indent=2, default=str)
         
         logger.info(f"JSON export created: {output_file}")
+        logger.info(f"Latest report overwritten: {self.output_dir}/report.json")
         return output_file
     
     def generate_csv_export(self, detections, output_file=None):
@@ -174,7 +178,6 @@ class ReportGenerator:
         
         logger.info(f"CSV export created: {output_file}")
         return output_file
-
 
 def main():
     """Test report generation"""
@@ -245,7 +248,6 @@ def main():
     print(f"\n{'='*70}")
     print("All reports generated successfully!")
     print(f"{'='*70}")
-
 
 if __name__ == "__main__":
     main()

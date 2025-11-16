@@ -1,3 +1,10 @@
+import os
+LOG_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "logs", "fetch_nodes.log")
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+import logging
+LOG_LEVEL = logging.INFO
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

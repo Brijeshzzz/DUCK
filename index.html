@@ -33,20 +33,26 @@
     <script>
         function startAnalysis() {
             document.getElementById('output').innerText = "Running analysis, please wait...";
-            fetch("http://localhost:8080/start_analysis", {
+            fetch("/start_analysis", {
                 method: "POST"
             })
             .then(res => res.json())
             .then(data => {
-                if(data.status === "completed"){
-                    document.getElementById('output').innerText = 
-                        "Analysis completed.\nResult JSON:\n" +
-                        JSON.stringify(data.report, null, 2);
+                if(data.status === "completed") {
+                    if (data.detection_status === "NO_TOR") {
+                        document.getElementById('output').innerText =
+                            "Analysis completed.\nNo TOR detected!";
+                    } else {
+                        document.getElementById('output').innerText =
+                            "Analysis completed.\nResult JSON:\n" +
+                            JSON.stringify(data.report, null, 2);
+                    }
+                } else if (data.status === "error") {
+                    document.getElementById('output').innerText =
+                        "ERROR:\n" + (data.stderr || "") + "\n" + (data.msg || "");
                 } else {
-                    document.getElementById('output').innerText = 
-                        "ERROR:\n" +
-                        (data.stderr || "") + "\n" +
-                        (data.msg || "");
+                    document.getElementById('output').innerText =
+                        "Unknown state: " + JSON.stringify(data, null, 2);
                 }
             })
             .catch(err => {
