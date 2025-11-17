@@ -1,19 +1,28 @@
 {
-  "case_id": "TOR-20251117-133646",
-  "timestamp": "2025-11-17T13:36:46.387533",
+  "case_id": "TOR-20251117-142604",
+  "timestamp": "2025-11-17T14:26:04.884977",
   "investigator": "TOR Analysis System",
   "summary": {
-    "total_packets": 0,
-    "tor_packets": 0,
-    "connections": 0,
+    "total_packets": 429,
+    "tor_packets": 2,
+    "connections": 2,
     "paths": 0,
-    "avg_confidence": 0
+    "avg_confidence": 100
   },
-  "detections": [],
+  "detections": [
+    {
+      "ip": "161.97.142.15",
+      "timestamp": "2025-11-17T14:26:04.884986"
+    },
+    {
+      "ip": "45.14.233.209",
+      "timestamp": "2025-11-17T14:26:04.884989"
+    }
+  ],
   "paths": [],
   "statistics": {
-    "detection_rate": 0,
-    "high_confidence": 0,
+    "detection_rate": 0.4662004662004662,
+    "high_confidence": 2,
     "medium_confidence": 0,
     "low_confidence": 0,
     "countries": 0,
