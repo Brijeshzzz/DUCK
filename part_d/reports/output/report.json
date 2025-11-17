@@ -1,6 +1,6 @@
 {
-  "case_id": "TOR-20251117-170157",
-  "timestamp": "2025-11-17T17:01:57.648237",
+  "case_id": "TOR-20251117-201518",
+  "timestamp": "2025-11-17T20:15:18.502705",
   "investigator": "TOR Analysis System",
   "summary": {
     "total_packets": 0,
@@ -14,9 +14,9 @@
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "de",
-        "lat": 52.52,
-        "lon": 13.405
+        "country": "Germany",
+        "lat": 51.2993,
+        "lon": 9.491
       },
       "exit_node": null,
       "confidence": 100,

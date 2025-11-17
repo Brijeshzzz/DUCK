@@ -6,12 +6,11 @@ import os
 import json
 from datetime import datetime
 from config.settings import TIMEOUT
-import geoip2.database # <-- NEW IMPORT
-import requests # <-- NEW IMPORT
-import time # For API throttling
+import geoip2.database 
+import requests 
+import time 
 
 # Configuration for GeoLite2 Database (!!! UPDATE THIS PATH !!!)
-# Ensure you have downloaded the GeoLite2-City.mmdb and placed it in a 'config' directory
 GEOIP_DB_PATH = os.path.join(os.path.dirname(__file__), "config", "GeoLite2-City.mmdb")
 
 logging.basicConfig(level=logging.INFO,
@@ -27,19 +26,16 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "part
 from pattern_analyzer import PatternAnalyzer
 from confidence_scorer import ConfidenceScorer
 
-# --- Reporting functionality ---
 from part_d.reports.report_generator import ReportGenerator
-# -------------------------------
 
 # =========================================================
-# NEW FUNCTION: GEO LOCATION ENRICHMENT HELPERS
+# GEO LOCATION ENRICHMENT HELPERS
 # =========================================================
 def get_ip_geolocation(ip, reader):
     """Fetches geolocation (lat/lon) for a given IP address."""
     if not ip or ip.startswith(('192.168.', '10.', '172.16.')):
-        return None, None, None # Skip private or invalid IPs
+        return None, None, None 
     
-    # 1. Try local GeoLite2 database lookup (Fastest)
     try:
         response = reader.city(ip)
         lat = response.location.latitude
@@ -48,9 +44,8 @@ def get_ip_geolocation(ip, reader):
         logging.debug(f"GeoIP success for {ip} via DB.")
         return lat, lon, country
     except geoip2.errors.AddressNotFoundError:
-        # 2. Fallback to a free API service if DB fails (Slower/Rate-limited)
         try:
-            time.sleep(0.5) # Throttle API calls
+            time.sleep(0.5) 
             url = f"http://ip-api.com/json/{ip}"
             res = requests.get(url, timeout=5)
             data = res.json()
@@ -79,28 +74,41 @@ def enrich_detections_with_geolocation(detections):
         logging.critical(f"Error initializing GeoIP reader: {e}. Skipping geolocation.")
         return detections
 
+    final_enriched_detections = []
+    
     for det in detections:
+        # <<< CRITICAL DEFENSIVE FIX: Ensure 'det' is a dictionary >>>
+        if not isinstance(det, dict):
+            logging.warning("Skipping non-dictionary detection entry (possible corruption).")
+            continue
+            
+        entry_node = det.get('entry_node')
+        exit_node = det.get('exit_node')
+
         # Enrich Entry Node
-        if 'entry_node' in det and 'ip' in det['entry_node']:
-            lat, lon, country = get_ip_geolocation(det['entry_node']['ip'], reader)
+        if entry_node and isinstance(entry_node, dict) and entry_node.get('ip'):
+            ip = entry_node['ip']
+            lat, lon, country = get_ip_geolocation(ip, reader)
             if lat and lon:
                 det['entry_node']['lat'] = lat
                 det['entry_node']['lon'] = lon
                 det['entry_node']['country'] = country
         
         # Enrich Exit Node
-        if 'exit_node' in det and 'ip' in det['exit_node']:
-            lat, lon, country = get_ip_geolocation(det['exit_node']['ip'], reader)
+        if exit_node and isinstance(exit_node, dict) and exit_node.get('ip'):
+            ip = exit_node['ip']
+            lat, lon, country = get_ip_geolocation(ip, reader)
             if lat and lon:
                 det['exit_node']['lat'] = lat
                 det['exit_node']['lon'] = lon
                 det['exit_node']['country'] = country
         
-        # NOTE: det is modified in place, no need to append to a new list unless deep copy is needed.
+        final_enriched_detections.append(det)
+
 
     reader.close()
-    logging.info(f"Successfully enriched {len(detections)} detection entries.")
-    return detections
+    logging.info(f"Successfully enriched {len(final_enriched_detections)} detection entries.")
+    return final_enriched_detections
 # =========================================================
 
 def run_command(command_list, timeout=60):
@@ -109,8 +117,7 @@ def run_command(command_list, timeout=60):
         result = subprocess.run(command_list, capture_output=True, text=True, timeout=timeout)
         if result.returncode != 0:
             logging.error(f"Error running command: {' '.join(command_list)}\n{result.stderr}")
-            # Do NOT exit 1 here, let it continue to report what it can.
-            # sys.exit(1)
+            return "" 
         logging.info(result.stdout)
         return result.stdout
     except subprocess.TimeoutExpired:
@@ -125,7 +132,13 @@ def get_latest_detection_results():
         return []
     try:
         with open(filepath, 'r') as f:
-            return json.load(f).get('detections', [])
+            data = json.load(f)
+            # Safely return the detections list, assuming the file structure is correct.
+            if isinstance(data, dict) and 'detections' in data:
+                return data['detections']
+            if isinstance(data, list):
+                return data # Accept raw list if file is not wrapped in dict
+            return []
     except json.JSONDecodeError:
         logging.error(f"Could not decode JSON from {filepath}")
         return []
@@ -138,9 +151,11 @@ def main():
     # 1. Run core detection pipeline
     run_command([sys.executable, "part_a/tor_database/fetch_nodes.py"], timeout=300)
     run_command([sys.executable, "part_a/network_capture/capture.py"], timeout=TIMEOUT + 20)
-    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=60)
+    
+    # NOTE: Timeout is 180 seconds now due to the previous 'sed' command.
+    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=180)
 
-    # 2. Get the RAW detection results (without lat/lon)
+    # 2. Get the RAW detection results 
     raw_detections = get_latest_detection_results()
     
     # 3. ENRICH DETECTIONS WITH GEO LOCATION
@@ -149,7 +164,6 @@ def main():
         print("PART B: GEO-LOCATION ENRICHMENT")
         print("="*70 + "\n")
         
-        # This modifies the list in place, adding lat/lon
         enriched_detections = enrich_detections_with_geolocation(raw_detections)
     else:
         enriched_detections = []
