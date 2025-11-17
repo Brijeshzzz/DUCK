@@ -77,7 +77,7 @@ def enrich_detections_with_geolocation(detections):
     final_enriched_detections = []
     
     for det in detections:
-        # <<< CRITICAL DEFENSIVE FIX: Ensure 'det' is a dictionary >>>
+        # CRITICAL DEFENSIVE FIX: Ensure 'det' is a dictionary 
         if not isinstance(det, dict):
             logging.warning("Skipping non-dictionary detection entry (possible corruption).")
             continue
@@ -133,14 +133,13 @@ def get_latest_detection_results():
     try:
         with open(filepath, 'r') as f:
             data = json.load(f)
-            # Safely return the detections list, assuming the file structure is correct.
             if isinstance(data, dict) and 'detections' in data:
                 return data['detections']
             if isinstance(data, list):
-                return data # Accept raw list if file is not wrapped in dict
+                return data 
             return []
     except json.JSONDecodeError:
-        logging.error(f"Could not decode JSON from {filepath}")
+        logging.error(f"Could not decode JSON from {filepath}. File likely empty or corrupted.")
         return []
 
 def main():
@@ -152,8 +151,8 @@ def main():
     run_command([sys.executable, "part_a/tor_database/fetch_nodes.py"], timeout=300)
     run_command([sys.executable, "part_a/network_capture/capture.py"], timeout=TIMEOUT + 20)
     
-    # NOTE: Timeout is 180 seconds now due to the previous 'sed' command.
-    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=180)
+    # NOTE: Timeout is 180 seconds now.
+    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=500)
 
     # 2. Get the RAW detection results 
     raw_detections = get_latest_detection_results()
@@ -168,6 +167,29 @@ def main():
     else:
         enriched_detections = []
         logging.info("No raw detections found to enrich.")
+        
+    # --- Start Safe Statistics Calculation ---
+    unique_entries = 0
+    unique_exits = 0
+    
+    entry_ips = set()
+    exit_ips = set()
+    
+    for det in enriched_detections:
+        entry_node = det.get('entry_node')
+        exit_node = det.get('exit_node')
+        
+        # Safely extract Entry IP
+        if entry_node and isinstance(entry_node, dict) and entry_node.get('ip'):
+            entry_ips.add(entry_node['ip'])
+            
+        # Safely extract Exit IP
+        if exit_node and isinstance(exit_node, dict) and exit_node.get('ip'):
+            exit_ips.add(exit_node['ip'])
+
+    unique_entries = len(entry_ips)
+    unique_exits = len(exit_ips)
+    # --- End Safe Statistics Calculation ---
         
     # 4. Construct final analysis data structure
     analysis_data = {
@@ -189,8 +211,9 @@ def main():
             "medium_confidence": 0,
             "low_confidence": 0,
             "countries": 0,
-            "unique_entries": len(set(d['entry_node']['ip'] for d in enriched_detections if d.get('entry_node') and d['entry_node'].get('ip'))),
-            "unique_exits": len(set(d['exit_node']['ip'] for d in enriched_detections if d.get('exit_node') and d['exit_node'].get('ip')))
+            # Use the calculated safe values
+            "unique_entries": unique_entries,
+            "unique_exits": unique_exits
         }
     }
 
