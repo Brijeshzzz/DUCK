@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GLOBAL TRACK SYS: Cyber Warfare Command Center V2.6 (Final)</title>
+    <title>GLOBAL TRACK SYS: Cyber Warfare Command Center V2.7 (Final Code)</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -445,13 +445,24 @@
                  return;
             }
 
+            let validMarkers = []; // Array to track markers successfully added
+
             detections.forEach(det => {
                 const entry = det.entry_node;
                 const exit = det.exit_node;
 
-                if (entry && exit && entry.lat && entry.lon && exit.lat && exit.lon) {
-                    const entryLatLng = [parseFloat(entry.lat), parseFloat(entry.lon)];
-                    const exitLatLng = [parseFloat(exit.lat), parseFloat(exit.lon)];
+                // Check and parse coordinates safely
+                const entryLat = parseFloat(entry?.lat);
+                const entryLon = parseFloat(entry?.lon);
+                const exitLat = parseFloat(exit?.lat);
+                const exitLon = parseFloat(exit?.lon);
+                
+                const entryHasGeo = !isNaN(entryLat) && !isNaN(entryLon);
+                const exitHasGeo = !isNaN(exitLat) && !isNaN(exitLon);
+                
+                if (entryHasGeo && exitHasGeo) {
+                    const entryLatLng = [entryLat, entryLon];
+                    const exitLatLng = [exitLat, exitLon];
 
                     // 1. Draw the Polyline (Connection Line)
                     const path = L.polyline([entryLatLng, exitLatLng], {
@@ -465,6 +476,7 @@
                         `<b>ENTRY Node</b><br>IP: ${entry.ip}<br>Country: ${entry.country}`
                     );
                     window.torPaths.push(entryMarker);
+                    validMarkers.push(entryMarker);
 
                     // 3. Draw the Exit Node Marker (Red, Pulsing)
                     const exitIcon = createAnimatedIcon('var(--error-red)', 'node-exit');
@@ -472,24 +484,37 @@
                         `<b>EXIT Node</b><br>IP: ${exit.ip}<br>Country: ${exit.country}`
                     );
                     window.torPaths.push(exitMarker);
+                    validMarkers.push(exitMarker);
+
+                } else if (entryHasGeo) {
+                    // FIX: Draw the ENTRY marker only if exit is missing/invalid
+                    const entryLatLng = [entryLat, entryLon];
+                    
+                    const entryIcon = createAnimatedIcon('var(--accent-blue)', 'node-entry');
+                    let entryMarker = L.marker(entryLatLng, { icon: entryIcon }).addTo(map).bindPopup(
+                        `<b>ENTRY Node (PARTIAL)</b><br>IP: ${entry.ip}<br>Country: ${entry.country}`
+                    );
+                    window.torPaths.push(entryMarker);
+                    validMarkers.push(entryMarker);
+                    writeLog(`Partial path visualized (Entry ${entry.ip} only).`, 'info');
+
                 } else {
-                    writeLog("Skipping path: Missing geolocation data for a node.", 'error');
+                    writeLog("Skipping path: Missing geolocation data for both nodes.", 'error');
                 }
             });
             
-            writeLog(`Visualized ${detections.length} TOR paths on the map.`, 'success');
+            writeLog(`Total unique markers visualized: ${validMarkers.length}`, 'success');
             
-            if (detections.length > 0) {
-                 // Create a feature group containing only the markers to calculate bounds
-                 const markers = window.torPaths.filter(p => p instanceof L.Marker);
-                 const group = new L.featureGroup(markers);
+            if (validMarkers.length > 0) {
+                 const group = new L.featureGroup(validMarkers);
                  
                  if (group.getBounds().isValid()) {
-                     // *** CRITICAL FIX: Fit the map view to show all rendered markers ***
                      map.fitBounds(group.getBounds().pad(0.5));
                  } else {
-                     writeLog("Map bounds invalid for zooming.", 'error');
+                     writeLog("Map bounds calculation failed. Markers may be clustered.", 'error');
                  }
+            } else {
+                 map.setView([20, 0], 2); // Reset view if no valid markers were drawn
             }
         }
 

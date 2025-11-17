@@ -151,8 +151,8 @@ def main():
     run_command([sys.executable, "part_a/tor_database/fetch_nodes.py"], timeout=300)
     run_command([sys.executable, "part_a/network_capture/capture.py"], timeout=TIMEOUT + 20)
     
-    # NOTE: Timeout is 180 seconds now.
-    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=500)
+    # *** FINAL TIMEOUT ADJUSTMENT ***
+    run_command([sys.executable, "-m", "part_a.tor_detection.detector"], timeout=900)
 
     # 2. Get the RAW detection results 
     raw_detections = get_latest_detection_results()
@@ -211,7 +211,6 @@ def main():
             "medium_confidence": 0,
             "low_confidence": 0,
             "countries": 0,
-            # Use the calculated safe values
             "unique_entries": unique_entries,
             "unique_exits": unique_exits
         }
