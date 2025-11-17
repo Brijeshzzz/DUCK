@@ -1,0 +1,36 @@
+{
+  "case_id": "TOR-20251117-144308",
+  "timestamp": "2025-11-17T14:43:08.402972",
+  "investigator": "TOR Analysis System",
+  "summary": {
+    "total_packets": 4333,
+    "tor_packets": 3650,
+    "connections": 3650,
+    "paths": 0,
+    "avg_confidence": 100
+  },
+  "detections": [
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "de",
+        "lat": 52.52,
+        "lon": 13.405
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-17T14:43:08.342917"
+    }
+  ],
+  "paths": [],
+  "statistics": {
+    "detection_rate": 84.23724901915533,
+    "high_confidence": 3650,
+    "medium_confidence": 0,
+    "low_confidence": 0,
+    "countries": 1,
+    "unique_entries": 2,
+    "unique_exits": 2
+  }
+}
