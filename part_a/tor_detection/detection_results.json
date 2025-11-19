@@ -1,41 +1,17 @@
 {
-  "case_id": "TOR-20251117-225712",
-  "timestamp": "2025-11-17T22:57:12.903464",
+  "case_id": "TOR-20251119-230410",
+  "timestamp": "2025-11-19T23:04:10.345944",
   "investigator": "TOR Analysis System",
   "summary": {
-    "total_packets": 1021,
-    "tor_packets": 176,
-    "connections": 176,
+    "total_packets": 567,
+    "tor_packets": 102,
+    "connections": 102,
     "paths": 0,
     "avg_confidence": 100
   },
   "detections": [
     {
       "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:52:22.102692"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:52:32.115397"
-    },
-    {
-      "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
         "country": "Germany",
@@ -44,7 +20,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:52:48.125427"
+      "timestamp": "2025-11-19T23:00:57.104468"
     },
     {
       "user_ip": "192.168.1.8",
@@ -56,19 +32,7 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:52:53.688759"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:00.627329"
+      "timestamp": "2025-11-19T23:00:57.436388"
     },
     {
       "user_ip": "192.168.1.8",
@@ -80,43 +44,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:06.033636"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:13.263799"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:14.588997"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:21.923945"
+      "timestamp": "2025-11-19T23:00:57.771803"
     },
     {
       "user_ip": "192.168.1.8",
@@ -128,7 +56,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:28.168732"
+      "timestamp": "2025-11-19T23:00:58.043036"
     },
     {
       "user_ip": "192.168.1.8",
@@ -140,7 +68,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:28.865127"
+      "timestamp": "2025-11-19T23:00:59.512377"
     },
     {
       "user_ip": "192.168.1.8",
@@ -152,7 +80,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:30.123438"
+      "timestamp": "2025-11-19T23:01:08.158451"
     },
     {
       "user_ip": "192.168.1.8",
@@ -164,7 +92,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:32.673223"
+      "timestamp": "2025-11-19T23:01:08.521891"
     },
     {
       "user_ip": "192.168.1.8",
@@ -176,7 +104,7 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:34.015001"
+      "timestamp": "2025-11-19T23:01:12.303279"
     },
     {
       "user_ip": "192.168.1.8",
@@ -188,7 +116,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:36.698427"
+      "timestamp": "2025-11-19T23:01:13.171836"
     },
     {
       "user_ip": "192.168.1.8",
@@ -200,139 +128,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:53:38.267715"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:49.635773"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:49.930600"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:50.691904"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:51.415987"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:53:59.807134"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:09.814879"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:17.574096"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:19.813579"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:26.652033"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:28.424544"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:28.895055"
+      "timestamp": "2025-11-19T23:01:19.630927"
     },
     {
       "user_ip": "192.168.1.8",
@@ -344,43 +140,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:54:33.930678"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:34.275711"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:41.909491"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:44.562334"
+      "timestamp": "2025-11-19T23:01:20.022417"
     },
     {
       "user_ip": "192.168.1.8",
@@ -392,19 +152,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:54:49.170478"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:54:50.090827"
+      "timestamp": "2025-11-19T23:01:20.472228"
     },
     {
       "user_ip": "192.168.1.8",
@@ -416,19 +164,19 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:54:55.641629"
+      "timestamp": "2025-11-19T23:01:34.258829"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:54:56.338961"
+      "timestamp": "2025-11-19T23:01:40.831860"
     },
     {
       "user_ip": "192.168.1.8",
@@ -440,7 +188,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:02.822457"
+      "timestamp": "2025-11-19T23:01:41.256682"
     },
     {
       "user_ip": "192.168.1.8",
@@ -452,19 +200,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:06.471162"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:08.980893"
+      "timestamp": "2025-11-19T23:01:41.580252"
     },
     {
       "user_ip": "192.168.1.8",
@@ -476,7 +212,7 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:15.442054"
+      "timestamp": "2025-11-19T23:01:41.912069"
     },
     {
       "user_ip": "192.168.1.8",
@@ -488,43 +224,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:15.891753"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:16.343827"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:17.934569"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:18.233733"
+      "timestamp": "2025-11-19T23:01:43.239496"
     },
     {
       "user_ip": "192.168.1.8",
@@ -536,19 +236,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:18.656659"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:20.610974"
+      "timestamp": "2025-11-19T23:01:52.059978"
     },
     {
       "user_ip": "192.168.1.8",
@@ -560,91 +248,7 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:29.098065"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:30.023652"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:37.563863"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:39.105528"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:39.516061"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:39.826109"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:40.165034"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:40.422257"
+      "timestamp": "2025-11-19T23:01:53.585951"
     },
     {
       "user_ip": "192.168.1.8",
@@ -656,7 +260,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:40.891323"
+      "timestamp": "2025-11-19T23:01:55.258633"
     },
     {
       "user_ip": "192.168.1.8",
@@ -668,19 +272,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:55:49.575937"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:55:59.583215"
+      "timestamp": "2025-11-19T23:01:57.619277"
     },
     {
       "user_ip": "192.168.1.8",
@@ -692,7 +284,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:01.020347"
+      "timestamp": "2025-11-19T23:01:59.046693"
     },
     {
       "user_ip": "192.168.1.8",
@@ -704,7 +296,31 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:01.402637"
+      "timestamp": "2025-11-19T23:01:59.388474"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:01.926630"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:02.358290"
     },
     {
       "user_ip": "192.168.1.8",
@@ -716,79 +332,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:01.775705"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:02.139883"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:02.487771"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:07.936713"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:19.383515"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:22.784933"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:24.129886"
+      "timestamp": "2025-11-19T23:02:03.693776"
     },
     {
       "user_ip": "192.168.1.8",
@@ -800,7 +344,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:24.512934"
+      "timestamp": "2025-11-19T23:02:03.996902"
     },
     {
       "user_ip": "192.168.1.8",
@@ -812,7 +356,19 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:24.846934"
+      "timestamp": "2025-11-19T23:02:04.306244"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:04.563716"
     },
     {
       "user_ip": "192.168.1.8",
@@ -824,7 +380,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:25.187736"
+      "timestamp": "2025-11-19T23:02:04.827294"
     },
     {
       "user_ip": "192.168.1.8",
@@ -836,7 +392,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:25.530207"
+      "timestamp": "2025-11-19T23:02:05.157903"
     },
     {
       "user_ip": "192.168.1.8",
@@ -848,43 +404,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:25.885007"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:26.130497"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:26.497262"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "France",
-        "lat": 48.9742,
-        "lon": 8.1851
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:26.858196"
+      "timestamp": "2025-11-19T23:02:05.417715"
     },
     {
       "user_ip": "192.168.1.8",
@@ -896,7 +416,55 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:27.196633"
+      "timestamp": "2025-11-19T23:02:05.790246"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:06.132065"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:06.460232"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:06.805397"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:07.110484"
     },
     {
       "user_ip": "192.168.1.8",
@@ -908,7 +476,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:27.563789"
+      "timestamp": "2025-11-19T23:02:07.441333"
     },
     {
       "user_ip": "192.168.1.8",
@@ -920,31 +488,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:27.872845"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:28.213339"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:28.573310"
+      "timestamp": "2025-11-19T23:02:07.709194"
     },
     {
       "user_ip": "192.168.1.8",
@@ -956,7 +500,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:28.906263"
+      "timestamp": "2025-11-19T23:02:07.998734"
     },
     {
       "user_ip": "192.168.1.8",
@@ -968,43 +512,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:29.283887"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:29.630216"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:29.926500"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:30.228057"
+      "timestamp": "2025-11-19T23:02:08.324723"
     },
     {
       "user_ip": "192.168.1.8",
@@ -1016,7 +524,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:30.693700"
+      "timestamp": "2025-11-19T23:02:16.743393"
     },
     {
       "user_ip": "192.168.1.8",
@@ -1028,19 +536,7 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:32.108600"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:35.733660"
+      "timestamp": "2025-11-19T23:02:22.314522"
     },
     {
       "user_ip": "192.168.1.8",
@@ -1052,19 +548,7 @@
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:36.486574"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "Germany",
-        "lat": 52.3771,
-        "lon": 10.4785
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:43.144206"
+      "timestamp": "2025-11-19T23:02:22.981749"
     },
     {
       "user_ip": "192.168.1.8",
@@ -1076,7 +560,7 @@
         "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:44.641385"
+      "timestamp": "2025-11-19T23:02:24.349717"
     },
     {
       "user_ip": "192.168.1.8",
@@ -1088,1048 +572,676 @@
         "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:56:50.544072"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:56:58.611338"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:04.755437"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.831466"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.833413"
+      "timestamp": "2025-11-19T23:02:25.736467"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.835532"
+      "timestamp": "2025-11-19T23:02:26.076549"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.837386"
+      "timestamp": "2025-11-19T23:02:26.432414"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.838903"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.840276"
+      "timestamp": "2025-11-19T23:02:26.778451"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.841634"
+      "timestamp": "2025-11-19T23:02:42.629469"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:47.986833"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:02:48.343202"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.843876"
+      "timestamp": "2025-11-19T23:03:01.790825"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.845201"
+      "timestamp": "2025-11-19T23:03:02.392004"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:03:04.231476"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.846452"
+      "timestamp": "2025-11-19T23:03:09.551914"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.847368"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.848241"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.849184"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.849921"
+      "timestamp": "2025-11-19T23:03:09.875724"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.850566"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.851266"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.851899"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.852508"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.852931"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.853383"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.853809"
+      "timestamp": "2025-11-19T23:03:10.281795"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.854239"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.855020"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.855503"
+      "timestamp": "2025-11-19T23:03:12.207964"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.855905"
+      "timestamp": "2025-11-19T23:03:13.006728"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:03:19.514084"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:03:20.952467"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.856314"
+      "timestamp": "2025-11-19T23:03:26.677657"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:03:28.083714"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:03:28.651686"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.856722"
+      "timestamp": "2025-11-19T23:03:29.110196"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.857113"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.857534"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.857917"
+      "timestamp": "2025-11-19T23:03:30.630777"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.858315"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.858705"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.859266"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.859644"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.860050"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.860503"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.860910"
+      "timestamp": "2025-11-19T23:03:31.922868"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.861313"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.862030"
+      "timestamp": "2025-11-19T23:03:32.262685"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.862470"
+      "timestamp": "2025-11-19T23:03:32.601383"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.862919"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.863327"
+      "timestamp": "2025-11-19T23:03:40.118932"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.863746"
+      "timestamp": "2025-11-19T23:03:40.560306"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.864132"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.864571"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.864974"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.865357"
+      "timestamp": "2025-11-19T23:03:42.002805"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.865768"
+      "timestamp": "2025-11-19T23:03:42.485960"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.866200"
+      "timestamp": "2025-11-19T23:03:53.768232"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.866576"
+      "timestamp": "2025-11-19T23:03:54.143755"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.867005"
+      "timestamp": "2025-11-19T23:03:58.710558"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.867423"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.867914"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.868324"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.870145"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.870743"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.871256"
+      "timestamp": "2025-11-19T23:04:00.250446"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.871682"
+      "timestamp": "2025-11-19T23:04:01.062365"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:01.477651"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:03.254424"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:03.874689"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.872112"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.872500"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.872883"
+      "timestamp": "2025-11-19T23:04:04.392408"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.873264"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.873641"
+      "timestamp": "2025-11-19T23:04:04.727114"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.874099"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.874495"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.874887"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.875280"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.875666"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.876070"
+      "timestamp": "2025-11-19T23:04:05.092336"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "exit_node": null,
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.876460"
+      "timestamp": "2025-11-19T23:04:05.436664"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.877170"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.877694"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.878096"
+      "timestamp": "2025-11-19T23:04:05.796548"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.878637"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.879138"
+      "timestamp": "2025-11-19T23:04:06.095548"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.879533"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.879926"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.880313"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.880689"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.881062"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "exit_node": null,
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.881433"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.881801"
-    },
-    {
-      "user_ip": "192.168.1.8",
-      "entry_node": null,
-      "exit_node": {
-        "ip": "45.14.233.209",
-        "country": "-",
-        "lat": null,
-        "lon": null
-      },
-      "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.882194"
+      "timestamp": "2025-11-19T23:04:06.419406"
     },
     {
       "user_ip": "192.168.1.8",
       "entry_node": null,
       "exit_node": {
         "ip": "161.97.142.15",
-        "country": "-",
-        "lat": null,
-        "lon": null
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
       },
       "confidence": 100,
-      "timestamp": "2025-11-17T22:57:12.882597"
+      "timestamp": "2025-11-19T23:04:06.756026"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:07.093683"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:07.435023"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:07.729168"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:08.082390"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:08.440540"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:08.713859"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:09.020682"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:09.307116"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "45.14.233.209",
+        "country": "Germany",
+        "lat": 52.3771,
+        "lon": 10.4785
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:09.634722"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "exit_node": null,
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:09.979046"
+    },
+    {
+      "user_ip": "192.168.1.8",
+      "entry_node": null,
+      "exit_node": {
+        "ip": "161.97.142.15",
+        "country": "France",
+        "lat": 48.9742,
+        "lon": 8.1851
+      },
+      "confidence": 100,
+      "timestamp": "2025-11-19T23:04:10.289343"
     }
   ],
   "paths": [],
   "statistics": {
-    "detection_rate": 17.238001958863858,
-    "high_confidence": 176,
+    "detection_rate": 17.989417989417987,
+    "high_confidence": 102,
     "medium_confidence": 0,
     "low_confidence": 0,
-    "countries": 3,
+    "countries": 2,
     "unique_entries": 2,
     "unique_exits": 2
   }

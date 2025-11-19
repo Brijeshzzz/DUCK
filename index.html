@@ -1,664 +1,998 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>GLOBAL TRACK SYS: Cyber Warfare Command Center V2.7 (Final Code)</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOBAL TRACK SYS - 3D Cyber Command</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* =================================================================== */
-        /* I. CORE VARIABLES & BASE STYLES - 🎨 COLOR PALETTE */
-        /* =================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --bg-dark: #000000;         
-            --bg-medium: #0c141c;       
-            --bg-light: #1a2430;        
-            --accent-blue: #00ffff;     
-            --accent-green: #39ff14;    
-            --text-light: #ffffff;      
-            --text-medium: #a0f0f0;     
-            --border-glow: rgba(0, 255, 255, 0.4); 
-            --box-shadow-glow: rgba(0, 255, 255, 0.2);
-            --error-red: #ff3366;       
-            --marker-size: 10px;        
-            --font-size-base: 14px;
-            --border-radius-base: 4px;
+            --cyan: #00ffff;
+            --cyan-glow: rgba(0, 255, 255, 0.6);
+            --dark-bg: #000000;
+            --panel-bg: rgba(0, 20, 30, 0.8);
+            --grid-color: rgba(0, 255, 255, 0.2);
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --deep-zoom-level: 1.1;
         }
 
-        /* Essential Scroll Fix */
-        html { height: 100%; scroll-behavior: smooth; }
         body {
-            background: var(--bg-dark); color: var(--text-light); font-family: 'Montserrat', Arial, sans-serif;
-            margin: 0; min-height: 100vh; display: flex; flex-direction: column;
-            font-size: 14px; line-height: 1.4;
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: var(--cyan);
+            overflow: hidden;
+            height: 100vh;
         }
 
-        /* Typography & Element Customization */
-        h1, h2, h3, h4, .orbitron {
-            font-family: 'Orbitron', sans-serif; color: var(--accent-blue);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3); margin-top: 0; margin-bottom: 0;
-        }
-        .header-text { font-family: 'Orbitron', sans-serif; font-size: 0.9em; color: var(--text-medium); letter-spacing: 0.5px; }
-        .value.orbitron { font-weight: 700; }
-        
-        /* =================================================================== */
-        /* II. LAYOUT AND GRID - 📐 STRUCTURE & POSITIONING */
-        /* =================================================================== */
-
-        .header-top-bar {
-            background: var(--bg-medium); padding: 5px 20px; border-bottom: 2px solid var(--accent-blue);
-            box-shadow: 0 0 10px var(--border-glow); display: flex; flex-direction: column;
-            user-select: none; position: sticky; top: 0; z-index: 100;
-        }
-        .top-nav { display: flex; justify-content: space-between; align-items: center; font-size: 0.8em; padding-bottom: 5px; border-bottom: 1px solid var(--bg-light); }
-        .top-nav-left, .top-nav-right { display: flex; gap: 15px; align-items: center; }
-        .top-nav-left span, .top-nav-right span { cursor: pointer; color: var(--text-medium); transition: color 0.2s; letter-spacing: 1px; text-transform: uppercase; }
-        .top-nav-left span:hover, .top-nav-right span:hover { color: var(--accent-blue); text-shadow: 0 0 5px var(--accent-blue); }
-        .logo-section { display: flex; justify-content: space-between; align-items: center; padding-top: 5px; }
-        .logo { font-size: 1.5em; font-weight: 700; color: var(--accent-blue); text-shadow: 0 0 8px var(--accent-blue); margin-right: 20px; }
-        .time-markers { display: flex; flex-grow: 1; justify-content: space-around; text-align: center; font-size: 0.9em; color: var(--text-medium); }
-        .time-marker span { display: block; }
-        .time-marker .location { color: var(--accent-blue); }
-        .time-marker .time-value { font-family: 'Orbitron', sans-serif; font-weight: 400; }
-        
-        .dashboard-container {
-            flex-grow: 1; display: grid; grid-template-areas: "sidebar map map" "sidebar radar lower-right" "sidebar lower-left lower-right";
-            grid-template-columns: 320px 1fr 380px; grid-template-rows: 2fr 1fr 220px;
-            gap: 15px; padding: 15px; box-sizing: border-box;
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
-        /* =================================================================== */
-        /* III. PANEL & WIDGET STYLES - 🖼️ COSMETIC & DETAILING */
-        /* =================================================================== */
-        
-        .panel {
-            background: var(--bg-medium); border-radius: var(--border-radius-base); border: 1px solid var(--border-glow);
-            box-shadow: 0 0 10px var(--box-shadow-glow); padding: 15px; position: relative; overflow: hidden;
-            transition: box-shadow 0.3s ease, transform 0.1s ease;
+        /* 3D Globe Canvas */
+        #globe-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.3s ease-in-out;
+            background-color: transparent; 
+            z-index: 5;
         }
-        .panel:hover { box-shadow: 0 0 20px var(--border-glow); transform: scale(1.005); z-index: 2; }
-        .panel-header {
-            font-family: 'Orbitron', sans-serif; color: var(--accent-blue); font-size: 1.1em; margin-bottom: 15px;
-            border-bottom: 1px dashed rgba(0, 255, 255, 0.4); padding-bottom: 10px; text-transform: uppercase;
+
+        /* 2D Detailed Map Overlay (Base64 Image Data) */
+        #map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+            z-index: 4; 
+            pointer-events: none; 
+            
+            /* --- EMBEDDED BASE64 IMAGE DATA (Guaranteed to Load) --- */
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADGm5hmAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAVElEQVR42u3BAQEAAAABIP6fXgENoCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAhT5wH8D7LzK09aGgAAAABJRU5ErkJggg==');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.1) contrast(1.5) brightness(1.2); /* Enhanced filter for visible grid lines */
+        }
+
+        #map-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* HUD Overlay */
+        .hud-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* --- (Rest of the boilerplate CSS) --- */
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            border-bottom: 1px solid var(--grid-color);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .time-display {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+
+        .time-item {
+            text-align: center;
+        }
+
+        .time-label {
+            font-size: 10px;
+            color: var(--text-dim);
             letter-spacing: 1px;
         }
-        .sidebar { overflow-y: auto; display: flex; flex-direction: column; gap: 15px; box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5); }
-        .sidebar .section {
-            background: var(--bg-light); border: 1px solid rgba(0, 255, 255, 0.2); padding: 12px;
-            border-radius: var(--border-radius-base); transition: border-color 0.3s ease;
-        }
-        .sidebar .section:hover { border-color: var(--accent-blue); }
 
-        /* Scrollbar Customization */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-medium); border-radius: 10px; box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 10px; border: 2px solid var(--bg-medium); transition: background 0.3s; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-green); }
-
-        /* NETWORK TRAFFIC & MICRO-BARS */
-        .network-traffic-display li {
-            font-size: 0.8em; display: grid; grid-template-columns: 2fr 1fr 3fr; padding: 4px 0;
-            align-items: center; color: var(--text-medium);
-        }
-        .network-traffic-display .label { letter-spacing: 0.5px; }
-        .network-traffic-display .value { color: var(--accent-green); text-shadow: 0 0 2px var(--accent-green); }
-        .data-bar { height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden; margin-left: 10px; position: relative; }
-        .data-bar::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5); }
-        .data-fill { height: 100%; background: var(--accent-blue); transition: width 0.8s ease-out; box-shadow: 0 0 5px var(--accent-blue); }
-        .data-fill.green { background: var(--accent-green); box-shadow: 0 0 5px var(--accent-green); }
-        .data-fill.red { background: var(--error-red); box-shadow: 0 0 5px var(--error-red); }
-
-        /* RADAR BUTTON GROUP STYLING */
-        .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .btn-group .small-btn {
-            background: rgba(0, 255, 255, 0.1); border: 1px solid var(--accent-blue); color: var(--accent-blue);
-            padding: 5px 10px; border-radius: 3px; font-size: 0.8em; cursor: pointer; position: relative;
-            overflow: hidden; transition: all 0.2s ease;
-        }
-        .btn-group .small-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.2); transition: left 0.3s; transform: skewX(-30deg); }
-        .btn-group .small-btn:hover::before { left: 100%; }
-        .btn-group .small-btn.active { background: var(--accent-blue); color: var(--bg-dark); box-shadow: 0 0 15px var(--accent-blue); }
-        
-        /* Analysis status log in the sidebar */
-        .log-display {
-            background: var(--bg-light); border: 1px solid var(--accent-green); border-radius: 3px;
-            height: 150px; overflow-y: scroll; margin-top: 15px; padding: 10px; font-size: 0.75em;
-            white-space: pre-wrap; color: var(--text-medium); font-family: monospace;
-        }
-        .log-message.error { color: var(--error-red); }
-        .log-message.success { color: var(--accent-green); }
-
-
-        /* =================================================================== */
-        /* IV. MAP STYLING - 🗺️ B&W CLARITY & VISIBILITY FIX */
-        /* =================================================================== */
-        
-        .main-map { grid-area: map; display: flex; flex-direction: column; }
-        #map {
-            flex-grow: 1; background-color: var(--bg-dark); border: 2px solid var(--accent-blue); overflow: hidden;
-            background-image: radial-gradient(circle at center, rgba(0,255,255,0.05) 0%, var(--bg-dark) 80%);
-        }
-        
-        /* **CRITICAL FIX: Apply filter directly to the tiles for visualization** */
-        .leaflet-tile-pane {
-            -webkit-filter: grayscale(100%) brightness(50%) contrast(150%);
-            filter: grayscale(100%) brightness(50%) contrast(150%);
-            mix-blend-mode: luminosity;
-        }
-        .leaflet-container { background-color: var(--bg-dark) !important; }
-        .leaflet-control-zoom-in, .leaflet-control-zoom-out { background-color: var(--bg-medium) !important; color: var(--accent-blue) !important; border: 1px solid var(--accent-blue) !important; }
-        .leaflet-overlay-pane path { mix-blend-mode: screen; }
-
-        /* Map Coordinates Readout Styling */
-        .map-coords { 
-            display: flex; justify-content: space-around; padding-top: 10px; 
-            font-size: 0.8em; color: var(--text-medium); 
-            border-top: 1px dotted rgba(0, 255, 255, 0.2); 
-            margin-top: 5px;
+        .time-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 16px;
+            color: var(--cyan);
         }
 
-        /* =================================================================== */
-        /* VII. NEW MARKER ANIMATION STYLES (Pulse Effect) */
-        /* =================================================================== */
-
-        /* Base Marker Icon Style (Used for L.divIcon) */
-        .animated-node-icon {
-            width: var(--marker-size); height: var(--marker-size); border-radius: 50%; position: relative;
-            transform: translate(-50%, -50%); box-shadow: 0 0 5px currentColor; 
-        }
-        
-        /* Pulse Ring Animation Definition */
-        .animated-node-icon::after {
-            content: ''; position: absolute; top: 50%; left: 50%; width: var(--marker-size); height: var(--marker-size);
-            border-radius: 50%; border: 2px solid currentColor; opacity: 0;
-            transform: translate(-50%, -50%); 
-            animation: node-pulse 2s cubic-bezier(0.24, 0, 0.3, 1) infinite;
+        .corner-panel {
+            position: absolute;
+            background: var(--panel-bg);
+            border: 1px solid var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
         }
 
-        /* Animation Delays for Entry/Exit distinction */
-        .node-entry::after { animation-delay: 0s; }
-        .node-exit::after { animation-delay: 0.5s; }
-
-        /* --- Keyframes for the Animation --- */
-        @keyframes node-pulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; border-width: 2px; }
-            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; border-width: 0.5px; }
+        .top-left {
+            top: 80px;
+            left: 20px;
+            width: 280px;
         }
-        
-        /* [Remaining CSS Omitted for brevity] */
 
+        .top-right {
+            top: 80px;
+            right: 20px;
+            width: 280px;
+        }
+
+        .bottom-left {
+            bottom: 20px;
+            left: 20px;
+            width: 350px;
+        }
+
+        .bottom-right {
+            bottom: 20px;
+            right: 20px;
+            width: 280px;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--grid-color);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', monospace;
+            color: var(--cyan);
+            text-shadow: 0 0 5px var(--cyan-glow);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .cyber-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .cyber-btn:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--cyan-glow);
+        }
+
+        .cyber-btn.active {
+            background: var(--cyan);
+            color: #000;
+        }
+
+        .waveform {
+            height: 60px;
+            margin-top: 10px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            justify-content: space-between;
+        }
+
+        .wave-bar {
+            flex: 1;
+            background: var(--cyan);
+            box-shadow: 0 0 5px var(--cyan-glow);
+            animation: wave-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wave-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            margin-top: 10px;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--grid-color);
+        }
+
+        .grid-cell.active {
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan-glow);
+            animation: grid-blink 2s infinite;
+        }
+
+        @keyframes grid-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .status-log {
+            max-height: 120px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--grid-color);
+        }
+
+        .log-entry {
+            padding: 2px 0;
+            color: var(--text-dim);
+        }
+
+        .log-entry.error {
+            color: #ff3366;
+        }
+
+        .log-entry.success {
+            color: #00ff88;
+        }
+
+        .crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+        }
+
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--cyan);
+            opacity: 0.3;
+        }
+
+        .crosshair::before {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crosshair::after {
+            height: 1px;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyan);
+            border-radius: 3px;
+        }
+
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--cyan);
+            opacity: 0.5;
+        }
+
+        .corner-decoration.tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-decoration.br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
     </style>
 </head>
 <body>
-    <div class="header-top-bar">
-        <div class="top-nav">
-            <div class="top-nav-left">
-                <span><i class="fas fa-file"></i> File</span>
-                <span><i class="fas fa-eye"></i> View</span>
-                <span><i class="fas fa-search"></i> Search</span>
-                <span><i class="fas fa-database"></i> Database</span>
-                <span><i class="fas fa-info-circle"></i> Help</span>
-            </div>
-            <div class="top-nav-right">
-                <i class="fas fa-bell" style="color: var(--error-red);"></i>
-                <span class="header-text">ACTIVE USER: SQ-48531</span>
-                <span><i class="fas fa-cog"></i> SETTINGS</span>
-                <span class="header-text" style="color: var(--accent-blue);">LAYOUT 2</span>
-                <input type="text" placeholder="Search Data..." style="background: var(--bg-light); border: 1px solid var(--accent-blue); color: var(--text-light); padding: 3px 5px; border-radius: 2px;">
-            </div>
-        </div>
-        <div class="logo-section">
-            <div class="logo">GLOBAL TRACK SYS</div>
-            <div class="time-markers">
-                <div class="time-marker"><span class="location">LOS ANGELES</span><span class="time-value" id="time_LA"></span></div>
-                <div class="time-marker"><span class="location">LONDON</span><span class="time-value" id="time_LDN"></span></div>
-                <div class="time-marker"><span class="location">MOSCOW</span><span class="time-value" id="time_MSK"></span></div>
-                <div class="time-marker"><span class="location">TOKYO</span><span class="time-value" id="time_TKY"></span></div>
-                <div class="time-marker"><span class="location">SYDNEY</span><span class="time-value" id="time_SYD"></span></div>
-            </div>
-        </div>
-    </div>
+    <div id="container">
+        <div id="map-overlay">
+             </div>
 
-    <div class="dashboard-container">
+        <canvas id="globe-canvas"></canvas>
         
-        <div class="sidebar panel">
-            <div class="panel-header">System Controls & Status</div>
-            <button class="neon-btn" onclick="startAnalysis()">START ANALYSIS</button>
-            <button class="neon-btn stop-btn" onclick="stopAnalysis()">STOP ANALYSIS</button>
-            
-            <div class="section">
-                <h4><i class="fas fa-stream"></i> ANALYSIS LOGS</h4>
-                <div class="log-display" id="analysis_log">
-                    <span class="log-message">Awaiting command...</span>
-                </div>
-            </div>
-
-            <div class="section">
-                <h4><i class="fas fa-network-wired"></i> NETWORK TRAFFIC</h4>
-                <div class="network-traffic-display">
-                    <ul>
-                        <li>
-                            <span class="label">INBOUND:</span> 
-                            <span class="value orbitron" id="inbound_val">0 MB</span>
-                            <div class="data-bar"><div class="data-fill blue" style="width: 0%;"></div></div>
-                        </li>
-                        <li>
-                            <span class="label">OUTBOUND:</span> 
-                            <span class="value orbitron" id="outbound_val">0 MB</span>
-                            <div class="data-bar"><div class="data-fill green" style="width: 0%;"></div></div>
-                        </li>
-                        <li>
-                            <span class="label">THREATS BLOCKED:</span> 
-                            <span class="value orbitron" id="threats_val" style="color: var(--error-red);">0</span>
-                            <div class="data-bar"><div class="data-fill red" style="width: 0%;"></div></div>
-                        </li>
-                        <li>
-                            <span class="label">TOR NODES:</span> 
-                            <span class="value orbitron" id="tor_val">0</span>
-                            <div class="data-bar"><div class="data-fill blue" style="width: 0%;"></div></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h4><i class="fas fa-satellite-dish"></i> RADAR ROUTER</h4>
-                <div class="btn-group" id="router_buttons">
-                    <button class="small-btn active" data-mode="LIVE" onclick="toggleMode(this)">LIVE</button>
-                    <button class="small-btn" data-mode="REPLAY" onclick="toggleMode(this)">REPLAY</button>
-                    <button class="small-btn" data-mode="ARCHIVE" onclick="toggleMode(this)">ARCHIVE</button>
-                </div>
-                <p style="font-size:0.8em; margin-top: 15px;">SCAN RANGE: <span class="value orbitron">5000 KM</span></p>
-                <p style="font-size:0.8em;">STATUS: <span class="value orbitron" id="radar_status">INACTIVE</span></p>
-            </div>
-
-            <div class="section">
-                <h4><i class="fas fa-globe-americas"></i> CONTINENTAL SCANNING</h4>
-                <div class="btn-group" id="continent_buttons">
-                    <button class="small-btn" onclick="toggleContinent(this)">N. AMERICA</button>
-                    <button class="small-btn active" onclick="toggleContinent(this)">EUROPE</button>
-                    <button class="small-btn" onclick="toggleContinent(this)">ASIA</button>
-                    <button class="small-btn" onclick="toggleContinent(this)">AFRICA</button>
-                    <button class="small-btn" onclick="toggleContinent(this)">S. AMERICA</button>
-                    <button class="small-btn" onclick="toggleContinent(this)">OCEANIA</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="main-map panel" style="padding: 10px;">
-            <div class="panel-header" style="margin-bottom: 5px; padding-bottom: 5px;">GLOBAL TRACK MAP</div>
-            <div id="map"></div>
-            <div class="map-coords">
-                <span>LAT: <span class="orbitron" id="map_lat">23.456</span></span>
-                <span>LON: <span class="orbitron" id="map_lon">-78.901</span></span>
-                <span>ZOOM: <span class="orbitron" id="map_zoom">4X</span></span>
-            </div>
-        </div>
-        
-        <div class="radar-display panel">
-            <div class="radar-header">Live Threat Radar</div>
-            <div class="radar-screen">
-                </div>
-        </div>
-
-        <div class="lower-left-panel panel">
-            <div class="gauge-section">
-                <div class="gauge-circle" style="background: conic-gradient(var(--accent-green) 0deg, transparent 0deg);" id="gauge_bw_fill">
-                    <div class="gauge-inner-bg"></div>
-                </div>
-                <span class="gauge-text" id="gauge_bw_text">0%</span>
-                <h5>BANDWIDTH</h5>
-                <span class="value orbitron" style="color: var(--accent-green);">OFFLINE</span>
-            </div>
-            <div class="gauge-section">
-                <div class="gauge-circle" style="background: conic-gradient(var(--accent-blue) 0deg, transparent 0deg);" id="gauge_cpu_fill">
-                    <div class="gauge-inner-bg"></div>
-                </div>
-                <span class="gauge-text" id="gauge_cpu_text">0%</span>
-                <h5>CPU LOAD</h5>
-                <span class="value orbitron" style="color: var(--accent-blue);">OFFLINE</span>
-            </div>
-            <div class="gauge-section">
-                <div class="gauge-circle" style="background: conic-gradient(var(--error-red) 0deg, transparent 0deg);" id="gauge_mem_fill">
-                    <div class="gauge-inner-bg"></div>
-                </div>
-                <span class="gauge-text" id="gauge_mem_text">0%</span>
-                <h5>MEMORY</h5>
-                <span class="value orbitron" style="color: var(--error-red);">OFFLINE</span>
-            </div>
-            <div class="gauge-section">
-                <div class="gauge-circle" style="background: conic-gradient(var(--accent-green) 0deg, transparent 0deg);" id="gauge_lat_fill">
-                    <div class="gauge-inner-bg"></div>
-                </div>
-                <span class="gauge-text" id="gauge_lat_text">0MS</span>
-                <h5>LATENCY</h5>
-                <span class="value orbitron" style="color: var(--accent-green);">OFFLINE</span>
-            </div>
-        </div>
-
-        <div class="lower-right-panel">
-            <div class="panel">
-                <div class="panel-header" style="font-size: 0.9em; margin-bottom: 5px; padding-bottom: 5px;"><i class="fas fa-plane"></i> AIRCRAFT TRACK</div>
-                <div class="aircraft-track-content">
-                    <div class="flight-data">
-                        <span class="header-text">FLIGHT 025</span>
-                        <ul>
-                            <li><span class="label">CALLSIGN:</span> <span class="orbitron">UFA87</span></li>
-                            <li><span class="label">FROM:</span> <span class="orbitron">MOSCOW</span></li>
-                            <li><span class="label">TO:</span> <span class="orbitron">NEW YORK</span></li>
-                            <li><span class="label">EST. TIME:</span> <span class="orbitron">8:14 PM</span></li>
-                        </ul>
+        <div class="hud-overlay">
+            <div class="top-bar">
+                <div class="logo">GLOBAL TRACK SYS</div>
+                <div class="time-display">
+                    <div class="time-item">
+                        <div class="time-label">LOS ANGELES</div>
+                        <div class="time-value" id="time-la">--:--:--</div>
                     </div>
-                    <div class="plane-visual">
-                        <i class="fas fa-plane"></i>
+                    <div class="time-item">
+                        <div class="time-label">LONDON</div>
+                        <div class="time-value" id="time-ldn">--:--:--</div>
+                    </div>
+                    <div class="time-item">
+                        <div class="time-label">TOKYO</div>
+                        <div class="time-value" id="time-tky">--:--:--</div>
+                    </div>
+                    <div class="time-item">
+                        <div class="time-label">SYDNEY</div>
+                        <div class="time-value" id="time-syd">--:--:--</div>
                     </div>
                 </div>
             </div>
-            <div class="panel">
-                <div class="panel-header" style="font-size: 0.9em; margin-bottom: 5px; padding-bottom: 5px;"><i class="fas fa-signal"></i> SIGNAL TRANSMISSION</div>
-                <div class="signal-transmission-content">
-                    <div class="signal-block">
-                        <h4>STATUS</h4>
-                        <span class="value orbitron" style="color: var(--accent-green);">OFFLINE</span>
-                    </div>
-                    <div class="signal-wave"></div>
-                    <div class="signal-block">
-                        <h4>TX RATE</h4>
-                        <span class="value orbitron" style="color: var(--accent-blue);">0 GHZ</span>
-                    </div>
+
+            <div class="corner-panel top-left">
+                <div class="panel-title">SYSTEM CONTROL</div>
+                <div class="control-buttons">
+                    <button class="cyber-btn" id="btn-start">START SCAN</button>
+                    <button class="cyber-btn" id="btn-stop">STOP</button>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">STATUS:</span>
+                    <span class="stat-value" id="system-status">STANDBY</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">THREATS:</span>
+                    <span class="stat-value" id="threat-count">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">TOR NODES:</span>
+                    <span class="stat-value" id="tor-count">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">CONNECTIONS:</span>
+                    <span class="stat-value" id="connection-count">0</span>
                 </div>
             </div>
+
+            <div class="corner-panel top-right">
+                <div class="panel-title">NETWORK TRAFFIC</div>
+                <div class="stat-row">
+                    <span class="stat-label">INBOUND:</span>
+                    <span class="stat-value" id="inbound">0 MB/s</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">OUTBOUND:</span>
+                    <span class="stat-value" id="outbound">0 MB/s</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">LATENCY:</span>
+                    <span class="stat-value" id="latency">0 ms</span>
+                </div>
+                <div class="waveform" id="waveform"></div>
+            </div>
+
+            <div class="corner-panel bottom-left">
+                <div class="panel-title">GLOBAL ACTIVITY MATRIX</div>
+                <div class="data-grid" id="activity-grid"></div>
+                <div class="status-log" id="status-log">
+                    <div class="log-entry">System initialized...</div>
+                    <div class="log-entry">Awaiting command...</div>
+                </div>
+            </div>
+
+            <div class="corner-panel bottom-right">
+                <div class="panel-title">COORDINATES</div>
+                <div class="stat-row">
+                    <span class="stat-label">LATITUDE:</span>
+                    <span class="stat-value" id="coord-lat">0.000°</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">LONGITUDE:</span>
+                    <span class="stat-value" id="coord-lon">0.000°</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ALTITUDE:</span>
+                    <span class="stat-value" id="coord-alt">2.5 AU</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ZOOM LEVEL:</span>
+                    <span class="stat-value" id="zoom-level">1.0x</span>
+                </div>
+            </div>
+
+            <div class="corner-decoration tl"></div>
+            <div class="corner-decoration tr"></div>
+            <div class="corner-decoration bl"></div>
+            <div class="corner-decoration br"></div>
+
+            <div class="crosshair"></div>
         </div>
     </div>
 
-    <div style="background: var(--bg-medium); color: var(--text-medium); padding: 5px 20px; font-size: 0.7em; border-top: 1px solid var(--accent-blue);">
-        <i class="fas fa-terminal" style="color: var(--accent-green);"></i> &nbsp;SYSTEM READY | STATUS: <span id="system_status">INITIALIZED</span> | LAST REFRESH: <span id="last_refresh">--</span>
-    </div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // ===================================================================
-        // JAVASCRIPT: BACKEND COMMUNICATION & DYNAMIC DATA 
-        // ===================================================================
+        // --- CONSTANTS ---
+        const DEEP_ZOOM_THRESHOLD = 1.1; 
+        const CHENNAI_LAT = 13.061;
+        const CHENNAI_LNG = 80.230;
 
-        // 1. GLOBAL STATE MANAGEMENT AND UTILITIES
-        let analysisRunning = false;
-        let radarInterval = null;
-        let dataSimulationInterval = null;
+        // --- DOM Elements ---
+        const globeCanvas = document.getElementById('globe-canvas');
+        const mapOverlay = document.getElementById('map-overlay');
+
+        // ===== THREE.JS GLOBE SETUP: BRIGHTER LIGHTING AND NEW TEXTURE =====
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: globeCanvas, antialias: true, alpha: true });
         
-        const minutesToMs = (offsetMinutes) => offsetMinutes * 60000;
-        const log = document.getElementById('analysis_log');
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        camera.position.z = 2.5; 
 
-        /** Appends a message to the analysis log. */
-        function writeLog(msg, type = 'info') {
-            const date = new Date().toLocaleTimeString();
-            const p = document.createElement('div');
-            p.classList.add('log-message', type);
-            p.textContent = `[${date}] ${msg}`;
-            log.appendChild(p);
-            log.scrollTop = log.scrollHeight; 
+        // Lighting: Increased intensity for better map visibility
+        const ambientLight = new THREE.AmbientLight(0x404040, 3.0); 
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xeeeeee, 1.5); 
+        dirLight.position.set(5, 3, 5); 
+        scene.add(dirLight);
+
+        // GLOBE CREATION 
+        const globeGeometry = new THREE.SphereGeometry(1, 128, 128);
+        const textureLoader = new THREE.TextureLoader();
+        
+        // TEXTURE: Uses a clearer, non-night map for better daylight contrast 
+        const HIGH_RES_MAP = 'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg'; 
+        
+        const earthMaterial = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 1.0, 
+            shininess: 10,
+            specular: 0x111111,
+        });
+        const solidGlobe = new THREE.Mesh(globeGeometry, earthMaterial);
+        scene.add(solidGlobe);
+
+        textureLoader.load(
+            HIGH_RES_MAP,
+            (texture) => {
+                solidGlobe.material.map = texture;
+                // Apply a slight blue-green filter
+                solidGlobe.material.color.setHex(0x354060); 
+                solidGlobe.material.needsUpdate = true;
+            }
+        );
+        
+        // Wireframe
+        const wireframeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.15
+        });
+        const wireframeGlobe = new THREE.Mesh(globeGeometry, wireframeMaterial);
+        scene.add(wireframeGlobe);
+
+        // Glow
+        const glowGeometry = new THREE.SphereGeometry(0.98, 32, 32);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff, transparent: true, opacity: 0.05, side: THREE.BackSide
+        });
+        const glowSphere = new THREE.Mesh(glowGeometry, glowMaterial);
+        scene.add(glowSphere);
+
+        // Atmosphere
+        const atmosphereGeometry = new THREE.SphereGeometry(1.15, 32, 32);
+        const atmosphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff, transparent: true, opacity: 0.05, side: THREE.BackSide
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        scene.add(atmosphere);
+
+        // Grid Lines (simplified)
+        const createGridLines = () => {
+            const gridGroup = new THREE.Group();
+            const segments = 128;
+            
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.6 });
+            
+            for (let i = 1; i < 18; i++) {
+                const phi = (Math.PI * i) / 18;
+                const points = [];
+                const radius = Math.sin(phi);
+                const y = Math.cos(phi);
+                
+                for (let j = 0; j <= segments; j++) {
+                    const theta = (j / segments) * Math.PI * 2;
+                    points.push(new THREE.Vector3(radius * Math.cos(theta), y, radius * Math.sin(theta)));
+                }
+                
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                gridGroup.add(new THREE.Line(geometry, lineMaterial));
+            }
+            
+            for (let i = 0; i < 36; i++) {
+                const theta = (2 * Math.PI * i) / 36;
+                const points = [];
+                for (let j = 0; j <= segments; j++) {
+                    const phi = (j / segments) * Math.PI;
+                    points.push(new THREE.Vector3(Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta)));
+                }
+                
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                gridGroup.add(new THREE.Line(geometry, lineMaterial));
+            }
+            
+            return gridGroup;
+        };
+        
+        const gridLines = createGridLines();
+        scene.add(gridLines);
+
+        // Markers and Connections groups
+        const markers = [];
+        const markerGroup = new THREE.Group();
+        scene.add(markerGroup);
+        const connections = [];
+
+        // --- ADD MARKER / CONNECTION FUNCTIONS ---
+        function addMarker(lat, lon, color = 0x00ffff, size = 0.02) {
+            const R = 1.02;
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const x = -(R * Math.sin(phi) * Math.cos(theta));
+            const y = R * Math.cos(phi);
+            const z = R * Math.sin(phi) * Math.sin(theta);
+            
+            const markerGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
+            const markerMaterial = new THREE.MeshBasicMaterial({ color: color, transparent: false, opacity: 1 });
+            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            marker.position.set(x, y, z);
+            
+            // Add light for glow effect
+            const light = new THREE.PointLight(color, 1, 0.3);
+            light.position.set(x, y, z);
+            
+            markerGroup.add(marker);
+            markerGroup.add(light);
+            markers.push({ marker, light, lat, lon });
+        }
+        
+        function clearMarkers() { 
+            markers.forEach(m => {
+                markerGroup.remove(m.marker);
+                markerGroup.remove(m.light);
+            }); 
+            markers.length = 0; 
+        }
+        
+        function addConnection(lat1, lon1, lat2, lon2) {
+            const R = 1.01;
+            const phi1 = (90 - lat1) * (Math.PI / 180);
+            const theta1 = (lon1 + 180) * (Math.PI / 180);
+            const phi2 = (90 - lat2) * (Math.PI / 180);
+            const theta2 = (lon2 + 180) * (Math.PI / 180);
+            
+            const x1 = -(R * Math.sin(phi1) * Math.cos(theta1));
+            const y1 = R * Math.cos(phi1);
+            const z1 = R * Math.sin(phi1) * Math.sin(theta1);
+            
+            const x2 = -(R * Math.sin(phi2) * Math.cos(theta2));
+            const y2 = R * Math.cos(phi2);
+            const z2 = R * Math.sin(phi2) * Math.sin(theta2);
+
+            const curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(x1, y1, z1),
+                new THREE.Vector3((x1 + x2) * 0.5, (y1 + y2) * 0.5 + 0.3, (z1 + z2) * 0.5),
+                new THREE.Vector3(x2, y2, z2)
+            );
+
+            const points = curve.getPoints(50);
+            const material = new THREE.LineBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.8
+            });
+            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), material);
+            scene.add(line);
+            connections.push(line);
         }
 
-        // 2. LEAFLET MAP INITIALIZATION AND CONTROLS
-        var map = L.map('map', {
-            zoomControl: false,
-            // Disable dragging if you want to lock the view, but enable it for now
-            dragging: true 
-        }).setView([20, 0], 2);
+        function clearConnections() {
+            connections.forEach(line => scene.remove(line));
+            connections.length = 0;
+        }
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors',
-            maxZoom: 18,
-            minZoom: 2,
-            noWrap: true,
-            tileSize: 256,
-            detectRetina: true
-        }).addTo(map);
+        // ===== MOUSE CONTROLS: ZOOM LOGIC =====
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let rotationVelocity = { x: 0, y: 0 };
 
-        L.control.zoom({ position: 'topright' }).addTo(map);
+        globeCanvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
 
-        // Markers/Paths State for cleanup
-        window.torPaths = []; 
-        
-        /** Creates a custom animated DivIcon marker. */
-        const createAnimatedIcon = (color, className) => {
-            return L.divIcon({
-                className: `custom-tor-icon ${className}`,
-                html: `<div class="animated-node-icon" style="background-color: ${color}; color: ${color};"></div>`,
-                iconSize: [16, 16], 
-                iconAnchor: [8, 8]
-            });
+        globeCanvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+                rotationVelocity.x = deltaY * 0.005;
+                rotationVelocity.y = deltaX * 0.005;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        });
+
+        globeCanvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        const handleWheel = (e) => {
+            e.preventDefault();
+            
+            camera.position.z += e.deltaY * 0.0005; 
+            
+            camera.position.z = Math.max(1.01, Math.min(5, camera.position.z));
+            updateZoomLevel();
+            updateView();
         };
 
-        /** Clears old paths/markers and renders new ones for TOR connections. */
-        function renderTorPaths(detections) {
-            if(window.torPaths && window.torPaths.length) {
-                window.torPaths.forEach(layer => map.removeLayer(layer));
-                window.torPaths = [];
+        globeCanvas.addEventListener('wheel', handleWheel);
+        mapOverlay.addEventListener('wheel', handleWheel);
+
+        // ===== VIEW MANAGEMENT AND SYNCHRONIZATION =====
+        function updateView() {
+            const isDeepZoom = camera.position.z <= DEEP_ZOOM_THRESHOLD;
+            const mapOverlayVisible = mapOverlay.classList.contains('visible');
+
+            if (isDeepZoom && !mapOverlayVisible) {
+                // --- SWITCH TO 2D MAP OVERLAY ---
+                mapOverlay.classList.add('visible');
+                globeCanvas.style.opacity = '0'; 
+                globeCanvas.style.pointerEvents = 'none';
+
+            } else if (!isDeepZoom && mapOverlayVisible) {
+                // --- SWITCH BACK TO 3D GLOBE ---
+                mapOverlay.classList.remove('visible');
+                globeCanvas.style.opacity = '1'; 
+                globeCanvas.style.pointerEvents = 'auto';
             }
+        }
+
+
+        // ===== ANIMATION LOOP: CRITICAL TRANSITION CHECK =====
+        function animate() {
+            requestAnimationFrame(animate);
             
-            if (!detections || detections.length === 0) {
-                 writeLog("No TOR paths detected for visualization.", 'info');
-                 // Ensure the map goes back to a reasonable default view
-                 map.setView([20, 0], 2); 
-                 return;
+            if (!isDragging) {
+                rotationVelocity.x *= 0.95;
+                rotationVelocity.y *= 0.95;
             }
 
-            let validMarkers = []; // Array to track markers successfully added
-
-            detections.forEach(det => {
-                const entry = det.entry_node;
-                const exit = det.exit_node;
-
-                // Check and parse coordinates safely
-                const entryLat = parseFloat(entry?.lat);
-                const entryLon = parseFloat(entry?.lon);
-                const exitLat = parseFloat(exit?.lat);
-                const exitLon = parseFloat(exit?.lon);
+            // Only render Three.js scene if the globe is visible (not zoomed in)
+            if (camera.position.z > DEEP_ZOOM_THRESHOLD) {
+                solidGlobe.rotation.y += rotationVelocity.y;
+                solidGlobe.rotation.x += rotationVelocity.x;
+                wireframeGlobe.rotation.y += rotationVelocity.y;
+                wireframeGlobe.rotation.x += rotationVelocity.x;
+                gridLines.rotation.y += rotationVelocity.y;
+                gridLines.rotation.x += rotationVelocity.x;
+                markerGroup.rotation.y += rotationVelocity.y;
+                markerGroup.rotation.x += rotationVelocity.x;
                 
-                const entryHasGeo = !isNaN(entryLat) && !isNaN(entryLon);
-                const exitHasGeo = !isNaN(exitLat) && !isNaN(exitLon);
-                
-                if (entryHasGeo && exitHasGeo) {
-                    const entryLatLng = [entryLat, entryLon];
-                    const exitLatLng = [exitLat, exitLon];
+                renderer.render(scene, camera);
+            }
+        }
+        animate();
 
-                    // 1. Draw the Polyline (Connection Line)
-                    const path = L.polyline([entryLatLng, exitLatLng], {
-                        color: 'var(--accent-blue)', weight: 2, opacity: 0.8, dashArray: '10, 10' 
-                    }).addTo(map);
-                    window.torPaths.push(path);
+        // ===== HUD FUNCTIONALITY (Modified Zoom/Coordinate) =====
 
-                    // 2. Draw the Entry Node Marker (Cyan, Pulsing)
-                    const entryIcon = createAnimatedIcon('var(--accent-blue)', 'node-entry');
-                    let entryMarker = L.marker(entryLatLng, { icon: entryIcon }).addTo(map).bindPopup(
-                        `<b>ENTRY Node</b><br>IP: ${entry.ip}<br>Country: ${entry.country}`
-                    );
-                    window.torPaths.push(entryMarker);
-                    validMarkers.push(entryMarker);
+        function updateCoordinates() {
+            if (camera.position.z <= DEEP_ZOOM_THRESHOLD) {
+                document.getElementById('coord-lat').textContent = `${CHENNAI_LAT}°`;
+                document.getElementById('coord-lon').textContent = `${CHENNAI_LNG}°`;
+            } else {
+                document.getElementById('coord-lat').textContent = `${(Math.random() * 180 - 90).toFixed(3)}°`;
+                document.getElementById('coord-lon').textContent = `${(Math.random() * 360 - 180).toFixed(3)}°`;
+            }
+        }
 
-                    // 3. Draw the Exit Node Marker (Red, Pulsing)
-                    const exitIcon = createAnimatedIcon('var(--error-red)', 'node-exit');
-                    let exitMarker = L.marker(exitLatLng, { icon: exitIcon }).addTo(map).bindPopup(
-                        `<b>EXIT Node</b><br>IP: ${exit.ip}<br>Country: ${exit.country}`
-                    );
-                    window.torPaths.push(exitMarker);
-                    validMarkers.push(exitMarker);
+        function updateZoomLevel() {
+            const minZ = 1.01;
+            const maxZ = 5;
+            const range = maxZ - minZ;
+            const normalizedZ = (maxZ - camera.position.z) / range;
+            const zoom = 1 + normalizedZ * 15; 
+            
+            document.getElementById('zoom-level').textContent = `${zoom.toFixed(1)}x`;
+            
+            updateCoordinates();
+        }
+        updateZoomLevel();
 
-                } else if (entryHasGeo) {
-                    // FIX: Draw the ENTRY marker only if exit is missing/invalid
-                    const entryLatLng = [entryLat, entryLon];
-                    
-                    const entryIcon = createAnimatedIcon('var(--accent-blue)', 'node-entry');
-                    let entryMarker = L.marker(entryLatLng, { icon: entryIcon }).addTo(map).bindPopup(
-                        `<b>ENTRY Node (PARTIAL)</b><br>IP: ${entry.ip}<br>Country: ${entry.country}`
-                    );
-                    window.torPaths.push(entryMarker);
-                    validMarkers.push(entryMarker);
-                    writeLog(`Partial path visualized (Entry ${entry.ip} only).`, 'info');
+        // --- (Rest of HUD functions are unchanged) ---
+        function updateTimes() {
+            const now = new Date();
+            const formatTime = (offset) => {
+                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                const localTime = new Date(utc + (3600000 * offset));
+                return localTime.toLocaleTimeString('en-US', { hour12: false });
+            };
+            
+            document.getElementById('time-la').textContent = formatTime(-7);
+            document.getElementById('time-ldn').textContent = formatTime(1);
+            document.getElementById('time-tky').textContent = formatTime(9);
+            document.getElementById('time-syd').textContent = formatTime(11);
+        }
+        setInterval(updateTimes, 1000);
+        updateTimes();
 
-                } else {
-                    writeLog("Skipping path: Missing geolocation data for both nodes.", 'error');
+        function initActivityGrid() {
+            const grid = document.getElementById('activity-grid');
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                grid.appendChild(cell);
+            }
+        }
+        initActivityGrid();
+
+        function updateActivityGrid() {
+            const cells = document.querySelectorAll('.grid-cell');
+            cells.forEach(cell => {
+                if (Math.random() > 0.9) {
+                    cell.classList.add('active');
+                    setTimeout(() => cell.classList.remove('active'), 2000);
                 }
             });
-            
-            writeLog(`Total unique markers visualized: ${validMarkers.length}`, 'success');
-            
-            if (validMarkers.length > 0) {
-                 const group = new L.featureGroup(validMarkers);
-                 
-                 if (group.getBounds().isValid()) {
-                     map.fitBounds(group.getBounds().pad(0.5));
-                 } else {
-                     writeLog("Map bounds calculation failed. Markers may be clustered.", 'error');
-                 }
-            } else {
-                 map.setView([20, 0], 2); // Reset view if no valid markers were drawn
+        }
+
+        function initWaveform() {
+            const waveform = document.getElementById('waveform');
+            for (let i = 0; i < 20; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'wave-bar';
+                bar.style.height = '20%';
+                bar.style.animationDelay = `${i * 0.1}s`;
+                waveform.appendChild(bar);
             }
         }
+        initWaveform();
 
-
-        // 4. RADAR, CLOCKS, AND DATA SIMULATION 
-        
-        const TIMEZONE_CONFIG = { 'LA': { offset: -7 * 60, element: 'time_LA' }, 'LDN': { offset: 1 * 60, element: 'time_LDN' }, 'MSK': { offset: 3 * 60, element: 'time_MSK' }, 'TKY': { offset: 9 * 60, element: 'time_TKY' }, 'SYD': { offset: 11 * 60, element: 'time_SYD' } };
-        
-        function updateClocks() {
-            try {
-                const now = new Date();
-                const utc = now.getTime() + minutesToMs(now.getTimezoneOffset());
-                
-                for (const [key, config] of Object.entries(TIMEZONE_CONFIG)) {
-                    const localTimeMs = utc + minutesToMs(config.offset);
-                    const localTime = new Date(localTimeMs);
-                    
-                    const formattedTime = localTime.toLocaleTimeString('en-US', {
-                        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-                    });
-                    document.getElementById(config.element).textContent = formattedTime;
-                }
-            } catch (error) { console.error("Error updating clocks:", error.message); }
-        }
-        function simulateDataRefresh() {
-            if (!analysisRunning) return;
-            const bw_val = Math.floor(Math.random() * 100);
-            const cpu_val = Math.floor(Math.random() * 90 + 5);
-            const lat_val = Math.floor(Math.random() * 120 + 50);
-            const mem_val = Math.floor(Math.random() * 90 + 5);
-            const degree = (val) => (val * 360) / 100;
-            document.getElementById('gauge_bw_text').textContent = `${bw_val}%`;
-            document.getElementById('gauge_cpu_text').textContent = `${cpu_val}%`;
-            document.getElementById('gauge_lat_text').textContent = `${lat_val}MS`;
-            document.getElementById('gauge_mem_text').textContent = `${mem_val}%`;
-            document.getElementById('gauge_bw_fill').style.background = `conic-gradient(var(--accent-green) ${degree(bw_val)}deg, transparent ${degree(bw_val)}deg)`;
-            document.getElementById('gauge_cpu_fill').style.background = `conic-gradient(var(--accent-blue) ${degree(cpu_val)}deg, transparent ${degree(cpu_val)}deg)`;
-            document.getElementById('gauge_mem_fill').style.background = `conic-gradient(var(--error-red) ${degree(mem_val)}deg, transparent ${degree(mem_val)}deg)`;
-            const lat_percent = Math.max(0, 100 - (lat_val - 50)); 
-            document.getElementById('gauge_lat_fill').style.background = `conic-gradient(var(--accent-green) ${degree(lat_percent)}deg, transparent ${degree(lat_percent)}deg)`;
-            document.getElementById('last_refresh').textContent = new Date().toLocaleTimeString();
-        }
-        function updateRadarDots() { 
-            const radarScreen = document.querySelector('.radar-screen');
-            radarScreen.querySelectorAll('.radar-dot, .radar-line').forEach(el => el.remove());
-            const radarLine = document.createElement('div');
-            radarLine.classList.add('radar-line');
-            radarScreen.appendChild(radarLine);
-            for (let i = 0; i < 8; i++) { 
-                const dot = document.createElement('div');
-                dot.classList.add('radar-dot');
-                dot.style.top = `${Math.random() * 80 + 10}%`; 
-                dot.style.left = `${Math.random() * 80 + 10}%`; 
-                if (Math.random() > 0.6) dot.classList.add('threat'); 
-                dot.style.animationDelay = `${Math.random() * 1}s`; 
-                dot.style.animationDuration = `${Math.random() * 0.5 + 1}s`;
-                radarScreen.appendChild(dot);
-            }
+        function updateWaveform() {
+            const bars = document.querySelectorAll('.wave-bar');
+            bars.forEach(bar => {
+                bar.style.height = `${Math.random() * 80 + 20}%`;
+            });
         }
 
-        setInterval(updateClocks, 1000); updateClocks();
+        function updateNetworkStats() {
+            document.getElementById('inbound').textContent = `${(Math.random() * 100).toFixed(1)} MB/s`;
+            document.getElementById('outbound').textContent = `${(Math.random() * 50).toFixed(1)} MB/s`;
+            document.getElementById('latency').textContent = `${Math.floor(Math.random() * 100)} ms`;
+        }
 
-        // 5. CORE CONTROL HANDLERS (FINAL VERSION)
-        
-        async function startAnalysis() {
-            if (analysisRunning) return writeLog("Analysis already running.", 'error');
+        function addLog(message, type = 'normal') {
+            const log = document.getElementById('status-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const time = new Date().toLocaleTimeString();
+            entry.textContent = `[${time}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
 
+        let analysisRunning = false;
+        let updateInterval = null;
+
+        document.getElementById('btn-start').addEventListener('click', async () => {
+            if (analysisRunning) return;
+            
             analysisRunning = true;
-            document.getElementById('system_status').textContent = 'ANALYSIS IN PROGRESS';
-            document.getElementById('radar_status').textContent = 'REQUESTING...';
-            writeLog("Sending POST request to start analysis...", 'info');
+            document.getElementById('system-status').textContent = 'SCANNING';
+            document.getElementById('btn-start').classList.add('active');
+            addLog('Analysis started...', 'success');
+            
+            updateInterval = setInterval(() => {
+                updateActivityGrid();
+                updateWaveform();
+                updateNetworkStats();
+            }, 1500);
 
+            // Fetch data from the Flask backend (server.py)
             try {
                 const response = await fetch('/start_analysis', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'start' }) 
+                    body: JSON.stringify({ action: 'start' })
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (response.ok) {
-                    writeLog(`Backend Status: ${data.status.toUpperCase()}`, 'info');
-                    writeLog(`Detection Result: ${data.detection_status}`, data.detection_status === 'TOR' ? 'error' : 'success');
-                                        
-                    startFrontendDisplays();
+                    const threatCount = data.report?.detections?.length || 0;
+                    const torNodes = data.report?.statistics?.unique_entries || 0;
                     
-                    if(data.report?.detections?.length) {
-                        // Pass the array of detection objects
-                        renderTorPaths(data.report.detections); 
+                    document.getElementById('threat-count').textContent = threatCount;
+                    document.getElementById('tor-count').textContent = torNodes;
+                    document.getElementById('connection-count').textContent = torNodes;
+                    document.getElementById('system-status').textContent = 'ACTIVE';
+
+                    addLog(`Detection: ${data.detection_status}`, data.detection_status === 'TOR' ? 'error' : 'success');
+                    
+                    // --- CRITICAL FIX: PROCESS REAL JSON DATA AND MAP ALL AVAILABLE NODES ---
+                    clearMarkers();
+                    clearConnections();
+
+                    if (data.report && data.report.detections) {
+                        data.report.detections.forEach(det => {
+                            const entry = det.entry_node;
+                            const exit = det.exit_node;
+                            
+                            const entryLat = parseFloat(entry?.lat);
+                            const entryLon = parseFloat(entry?.lon);
+                            const exitLat = parseFloat(exit?.lat);
+                            const exitLon = parseFloat(exit?.lon);
+                            
+                            // 1. Plot Entry Node if coordinates are valid
+                            const isEntryValid = !isNaN(entryLat) && !isNaN(entryLon);
+                            if (isEntryValid) {
+                                addMarker(entryLat, entryLon, 0x00ffff, 0.025);
+                                addLog(`Entry: ${entry.country} (${entry.ip})`, 'normal');
+                            }
+                            
+                            // 2. Plot Exit Node if coordinates are valid
+                            const isExitValid = !isNaN(exitLat) && !isNaN(exitLon);
+                            if (isExitValid) {
+                                addMarker(exitLat, exitLon, 0xff3366, 0.025);
+                                addLog(`Exit: ${exit.country} (${exit.ip})`, 'error');
+                            }
+                            
+                            // 3. Draw Connection Line ONLY if BOTH nodes are valid
+                            if (isEntryValid && isExitValid) {
+                                addConnection(entryLat, entryLon, exitLat, exitLon);
+                            }
+                        });
+                        
+                        addLog(`Visualized ${data.report.detections.length} total paths/nodes.`, 'success');
                     } else {
-                        renderTorPaths([]);
+                        addLog(`No TOR paths detected in report.`, 'normal');
                     }
                     
-                    document.getElementById('threats_val').textContent = data.report?.detections?.length || '0';
-                    document.getElementById('tor_val').textContent = data.report?.statistics?.unique_entries || '0';
-                    document.getElementById('system_status').textContent = 'ANALYSIS COMPLETE';
-                    document.getElementById('radar_status').textContent = 'REPORTING';
-
                 } else {
-                    throw new Error(data.msg || `Server responded with status ${response.status}`);
+                    throw new Error(data.msg || 'Analysis failed on server.');
                 }
 
             } catch (error) {
-                writeLog(`FATAL ERROR: ${error.message}`, 'error');
-                writeLog("Analysis aborted. Check server logs and Flask console.", 'error');
-                stopAnalysis(); 
+                 // Fallback to Demo mode if server fails or is not running
+                addLog(`Server Error: ${error.message}. Running sample data simulation.`, 'error');
+                
+                const sampleLocations = [
+                    { lat: 51.5074, lon: -0.1278, name: 'London' },
+                    { lat: CHENNAI_LAT, lon: CHENNAI_LNG, name: 'Chennai' },
+                    { lat: 35.6762, lon: 139.6503, name: 'Tokyo' },
+                    { lat: 40.7128, lon: -74.0060, name: 'New York' },
+                    { lat: 48.8566, lon: 2.3522, name: 'Paris' },
+                    { lat: 1.3521, lon: 103.8198, name: 'Singapore' }
+                ];
+                
+                clearMarkers();
+                clearConnections();
+                
+                const numConnections = 5;
+                for (let i = 0; i < numConnections; i++) {
+                    const entry = sampleLocations[Math.floor(Math.random() * sampleLocations.length)];
+                    let exit = sampleLocations[Math.floor(Math.random() * sampleLocations.length)];
+                    
+                    addMarker(entry.lat, entry.lon, 0x00ffff, 0.025);
+                    addMarker(exit.lat, exit.lon, 0xff3366, 0.025);
+                    addConnection(entry.lat, entry.lon, exit.lat, exit.lon);
+                    
+                    addLog(`Demo Path: ${entry.name} → ${exit.name}`, 'normal');
+                }
+                
+                document.getElementById('threat-count').textContent = numConnections;
+                document.getElementById('tor-count').textContent = numConnections * 2;
+                document.getElementById('connection-count').textContent = numConnections;
+                document.getElementById('system-status').textContent = 'DEMO';
             }
-        }
-
-        function startFrontendDisplays() {
-            analysisRunning = true;
-            document.getElementById('radar_status').textContent = 'MONITORING';
-            document.getElementById('radar_status').style.color = 'var(--accent-green)';
+        });
+        
+        document.getElementById('btn-stop').addEventListener('click', () => {
+            if (!analysisRunning) return;
             
-            if (!radarInterval) radarInterval = setInterval(updateRadarDots, 2000);
-            if (!dataSimulationInterval) dataSimulationInterval = setInterval(simulateDataRefresh, 1500);
-            
-            simulateDataRefresh();
-            updateRadarDots();
-        }
-
-        function stopAnalysis() {
             analysisRunning = false;
+            document.getElementById('system-status').textContent = 'STANDBY';
+            document.getElementById('btn-start').classList.remove('active');
             
-            document.getElementById('system_status').textContent = 'SYSTEM STANDBY';
-            document.getElementById('radar_status').textContent = 'INACTIVE';
-            document.getElementById('radar_status').style.color = 'var(--error-red)';
+            clearInterval(updateInterval);
+            updateInterval = null;
             
-            clearInterval(radarInterval);
-            clearInterval(dataSimulationInterval);
-            radarInterval = null;
-            dataSimulationInterval = null;
+            clearMarkers();
+            clearConnections();
             
-            renderTorPaths([]);
+            document.getElementById('threat-count').textContent = '0';
+            document.getElementById('tor-count').textContent = '0';
+            document.getElementById('connection-count').textContent = '0';
             
-            document.querySelectorAll('.data-fill').forEach(bar => { bar.style.width = '0%'; });
-            document.querySelector('.radar-screen').querySelectorAll('.radar-dot, .radar-line').forEach(el => el.remove());
-            
-            writeLog("Analysis System Shut Down. All displays reset.", 'info');
-        }
-
-        // Initial calls upon load
-        stopAnalysis();
+            addLog('Analysis stopped', 'normal');
+            addLog('All systems reset', 'normal');
+        });
+        
+        setTimeout(() => {
+            addLog('System initialized', 'success');
+            addLog('Awaiting scan command...', 'normal');
+        }, 500);
     </script>
 </body>
 </html>
